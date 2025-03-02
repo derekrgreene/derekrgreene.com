@@ -88,3 +88,6 @@ domains.json
 
 # Logs
 *.out
+
+# Cron Jobs
+cron_jobs/
