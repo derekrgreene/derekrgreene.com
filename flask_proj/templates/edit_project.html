@@ -1,0 +1,66 @@
+<!-- Authors: Derek Greene & Nathan Schuler
+     Date: 7/2024
+     Course: CS340 - Introduction to Databases
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Edit Project</title>
+</head>
+<body class="page-edit-project">
+    <div class="container">
+        <h1>Edit Project</h1>
+
+        <!-- Form to edit project -->
+        <form method="POST" class="form">
+
+            <!-- Dropdown for status -->
+            <div class="form-group">
+                <label for="projectStatus">Project Status:</label>
+                <select id="projectStatus" name="projectStatus" required class="form-control">
+                    <option value="Not started" {% if project['projectStatus'] == 'Not started' %}selected{% endif %}>Not started</option>
+                    <option value="In process" {% if project['projectStatus'] == 'In process' %}selected{% endif %}>In process</option>
+                    <option value="On hold" {% if project['projectStatus'] == 'On hold' %}selected{% endif %}>On hold</option>
+                    <option value="Completed" {% if project['projectStatus'] == 'Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Canceled" {% if project['projectStatus'] == 'Canceled' %}selected{% endif %}>Canceled</option>
+                </select>
+            </div>
+
+            <!-- Multi-select dropdown for part numbers -->
+            <div class="form-group">
+                <label for="partNumbers">Part Numbers:</label>
+                <select id="partNumbers" name="partNumbers" multiple required class="form-control">
+                    {% for part in parts %}
+                        <option value="{{ part['partNumber'] }}"
+                            {% if part['partNumber'] in project_parts %}selected{% endif %}>
+                            {{ part['partNumber'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Multi-select dropdown for assigned users -->
+            <div class="form-group">
+                <label for="users">Assign Users:</label>
+                <select id="users" name="users" multiple class="form-control">
+                    <option value="" {% if not assigned_users %}selected{% endif %}>None</option>
+                    {% for user in users %}
+                        <option value="{{ user['userId'] }}"
+                            {% if user['userId'] in assigned_users %}selected{% endif %}>
+                            {{ user['firstName'] }} {{ user['lastName'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Add and cancel buttons -->
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{{ url_for('projects') }}" class="btn btn-cancel">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

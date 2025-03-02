@@ -1,0 +1,60 @@
+<!-- Authors: Derek Greene & Nathan Schuler
+     Date: 7/2024
+     Course: CS340 - Introduction to Databases
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Add Project</title>
+</head>
+<body class="page-add-project">
+    <div class="container">
+        <h1 class="page-title">Add Project</h1>
+
+        <!-- Form to add a new project -->
+        <form method="POST" class="form">
+
+            <!-- Dropdown to select project status -->
+            <div class="form-group">
+                <label for="projectStatus">Project Status:</label>
+                <select id="projectStatus" name="projectStatus" required class="form-control">
+                    <option value="">Select Status</option>
+                    <option value="Not started">Not started</option>
+                    <option value="In process">In process</option>
+                    <option value="On hold">On hold</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
+            </div>
+
+            <!-- Multi-select dropdown for part numbers -->
+            <div class="form-group">
+                <label for="partNumbers">Part Numbers:</label>
+                <select id="partNumbers" name="partNumbers" multiple required class="form-control">
+                    {% for part in parts %}
+                        <option value="{{ part['partNumber'] }}">{{ part['partNumber'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Multi-select dropdown for assigned users -->
+            <div class="form-group">
+                <label for="users">Assigned Users:</label>
+                <select id="users" name="users" multiple class="form-control">
+                    {% for user in users %}
+                        <option value="{{ user['userId'] }}">{{ user['firstName'] }} {{ user['lastName'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Add and cancel buttons -->
+            <button type="submit" class="btn btn-primary">Add Project</button>
+            <a href="{{ url_for('projects') }}" class="btn btn-cancel">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

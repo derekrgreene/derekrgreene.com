@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<div id="container"></div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+<script type="module">
+
+const data = await d3.json("data.json");
+
+// Specify the dimensions of the chart.
+const width = 1200;
+const height = 1200; 
+
+
+const rowSpacing = 100;
+const columnSpacing = 100; 
+
+const defaultOpacity = 0.5;
+
+const circleRadius = 10;
+const arrowWidth = 4;
+const arrowHeight = 4;
+const arrowSpacing = circleRadius + 3 * arrowHeight;
+
+// Specify the color scale.
+const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+const links = data.links
+const nodes = data.nodes
+
+let totalItemsPerRow = {}
+// Assign x and y coordinates to nodes
+nodes.forEach((d, i) => {
+    if (totalItemsPerRow[d.row] === undefined) { totalItemsPerRow[d.row] = 1; } else { totalItemsPerRow[d.row] += 1; }
+});
+
+let itemsPerRow = {}
+nodes.forEach((d, i) => {
+    d.y = d.row * rowSpacing;
+    if (itemsPerRow[d.row] === undefined) { itemsPerRow[d.row] = 1; } else { itemsPerRow[d.row] += 1; }
+    d.x = itemsPerRow[d.row] * columnSpacing - (totalItemsPerRow[d.row] * columnSpacing / 2);
+});
+
+let seen_paths = {}
+links.forEach((d, i) => {
+    d.source = nodes.find(n => n.id === d.source);
+    d.target = nodes.find(n => n.id === d.target);
+    
+    d.x1 = d.source.x;
+    d.y1 = d.source.y;
+    d.x2 = d.target.x;
+    d.y2 = d.target.y;
+
+    let path = [d.source.id, d.target.id].sort().join("-");
+    if (seen_paths[path] === undefined) {
+        seen_paths[path] = 1;
+    } else {
+        seen_paths[path] += 1;
+    }
+
+    d.curvature = seen_paths[path] - 1; 
+});
+
+// Helper functions
+
+// custom line function that generates curved paths between nodes
+function curvedLine(d) {
+    let controlX = d.x2;
+    let controlY = d.y1 + (d.y2 - d.y1) / 2;
+    let destX = d.x2;
+    let destY = d.y2 - arrowSpacing;
+    let srcX = d.x1;
+    let srcY = d.y1 + circleRadius;
+
+    if (d.y1 == d.y2) {
+        destY = d.y2;
+        destX = d.x2 - Math.abs(d.x2 - d.x1)/(d.x2 - d.x1) * arrowSpacing;
+        srcY = d.y1;
+        srcX = d.x1 + Math.abs(d.x2 - d.x1)/(d.x2 - d.x1) * circleRadius;
+        controlX = destX + (srcX - destX) / 2;
+        controlY = srcY; 
+    }
+
+    if (d.y1 != d.y2) {
+        controlY = controlY - d.curvature * 20;
+        controlX = controlX - d.curvature * 10;
+    } else {
+        controlY = controlY - d.curvature * 10;
+    }
+
+    return `M${srcX},${srcY}Q${controlX},${controlY} ${destX},${destY}`;
+}
+
+function fadeAll() {
+    let fadeOpacity = 0.2;
+    link.attr("stroke-opacity", fadeOpacity);
+    node.attr("opacity", fadeOpacity);
+    d3.selectAll("text").attr("opacity", fadeOpacity);
+    d3.selectAll("marker[id^='arrow']").attr("opacity", fadeOpacity);
+}
+function unfadeAll() {
+    link.attr("stroke-opacity", defaultOpacity);
+    node.attr("opacity", 1);
+    d3.selectAll("text").attr("opacity", 1);
+    d3.selectAll("marker[id^='arrow']").attr("opacity", defaultOpacity);
+}
+function highlightPath(br_section) {
+    d3.selectAll(`[class="${br_section}"]`).attr("stroke", d => color(br_section)).attr("stroke-opacity", 1);
+        
+    let brLinks = d3.selectAll(`[class="${br_section}"]`).data();
+    const uniqueNodeIds = [...new Set(brLinks.map(item => item.source.id).concat(brLinks.map(item => item.target.id)))].map(id => `#${id}`  );
+    d3.selectAll(uniqueNodeIds.join(", ")).attr("opacity", 1);
+    d3.selectAll(uniqueNodeIds.map(id => `#label-${id.substring(1)}`).join(", ")).attr("opacity", 1);
+    d3.selectAll(`#arrow${color(br_section).substring(1)}`).attr("opacity", 1);
+    d3.selectAll(`text[id='legend-${br_section}']`).attr("opacity", 1);
+}
+
+function sortBRSections(x, y) {
+    return x.br_section.localeCompare(y.br_section);
+
+}
+
+
+// Create the SVG container.
+const svg = d3.create("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [-width/2, 0, width, height])
+    .attr("style", "max-width: 100%; height: auto;");
+
+const arrows =svg.append("svg:defs")
+for (let c of d3.schemeCategory10) {
+    arrows.append("svg:marker")
+    .attr("id", `arrow${c.substring(1)}`)
+    .attr("viewBox", "0 -5 10 10")
+    .attr('refX', 0)
+    .attr("markerWidth", arrowWidth)
+    .attr("markerHeight", arrowHeight)
+    .attr("orient", "auto")
+    .attr("fill", c)
+    .attr("opacity", defaultOpacity)
+  .append("svg:path")
+    .attr("d", "M0,-5L10,0L0,5");
+}
+
+const link = svg.append("g")
+    .attr("id", "links")
+    .attr("fill", "none")
+    .selectAll()
+    .data(links)
+    .join("path")
+    .attr("d", curvedLine)
+    .attr("class", d => d.br_section)
+    .attr("stroke", d => color(d.br_section))
+    .attr("stroke-width", 3)
+    .attr("stroke-opacity", defaultOpacity)
+    .attr("marker-end", d => `url(#arrow${color(d.br_section).substring(1)})`)
+    .on("mouseover", (event, d) => {
+        if (clickedSection) {return;}
+        fadeAll();
+        highlightPath(d.br_section);
+    }).on("mouseout", (event, d) => {
+        if (clickedSection) {return;}
+        unfadeAll();
+    });
+
+const node = svg.append("g")
+    .attr("id", "nodes")
+    .selectAll("circle")
+    .data(nodes)
+    .join("circle")
+    .attr("id", d => d.id)
+    .attr("r", circleRadius)
+    .attr("cx", d => d.x)
+    .attr("cy", d => d.y)
+    .attr("fill", d => color(d.medium));
+
+node.append("title")
+    .text(d => d.display);
+
+
+link.append("title")
+    .text(d => `BR section: ${d.br_section}`);
+
+svg.append("g")
+    .attr("id", "texts")
+    .selectAll("text")
+    .data(nodes)
+    .join("text")
+    .attr("x", d => d.x + circleRadius)
+    .attr("y", d => d.y)
+    .attr("text-anchor", "start")
+    .attr("dominant-baseline", "middle")
+    .attr("id", d => `label-${d.id}`)
+    .text(d => d.display);
+
+let clickedSection = false;
+// legend with BR sections
+svg.append("g")
+    .selectAll("text")
+    .data([...new Set(links.map(d => d.br_section))].sort().map(d => ({br_section: d})))
+    .join("text")
+    .attr("id", d => `legend-${d.br_section}`)
+    .attr("x", width/2 - 100)
+    .attr("y", (d, i) => i * 20 + 100)
+    .attr("text-anchor", "start")
+    .attr("dominant-baseline", "middle")
+    .attr("fill", d => color(d.br_section))
+    .text(d => d.br_section)
+    .on("mouseover", (event, d) => {
+        if (!clickedSection) {
+            fadeAll();
+            highlightPath(d.br_section);
+        }
+    }).on("mouseout", (event, d) => {
+        if (!clickedSection) {
+            unfadeAll();
+        }
+    }).on("click", (event, d) => {
+        if (clickedSection && d.br_section == clickedSection) {
+            clickedSection = false;
+            unfadeAll();
+        } else if (clickedSection && d.br_section != clickedSection) {
+            clickedSection = d.br_section;
+            fadeAll();
+            highlightPath(d.br_section);
+        } else {
+            clickedSection = d.br_section;
+            fadeAll();
+            highlightPath(d.br_section);
+        }
+    });
+
+// TODO: unique curvature for overlapping links
+
+// TODO: labels for different rows
+
+
+container.append(svg.node());
+
+</script>
+

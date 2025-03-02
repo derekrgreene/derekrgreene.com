@@ -1,0 +1,70 @@
+<!-- Authors: Derek Greene & Nathan Schuler
+     Date: 7/2024
+     Course: CS340 - Introduction to Databases
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Edit Design</title>
+</head>
+<body class="page-edit-project">
+    <div class="container">
+        <h1 class="page-title">Edit Design</h1>
+
+        <!-- Form to edit design -->
+        <form method="POST" action="{{ url_for('edit_design', part_number=design['partNumber']) }}" class="form">
+
+            <!-- Input for part number (read-only) -->
+            <div class="form-group">
+                <label for="partNumber">Part Number:</label>
+                <input type="text" id="partNumber" name="partNumber" value="{{ design['partNumber'] }}" readonly class="form-control">
+            </div>
+
+            <!-- Input for tool -->
+            <div class="form-group">
+                <label for="tool">Tool:</label>
+                <input type="text" id="tool" name="tool" value="{{ design['tool'] }}" required class="form-control">
+            </div>
+
+            <!-- Input for revision -->
+            <div class="form-group">
+                <label for="revision">Revision:</label>
+                <input type="text" id="revision" name="revision" value="{{ design['revision'] if design['revision'] is not none else '' }}" class="form-control">
+            </div>
+
+            <!-- Dropdown for project ID -->
+            <div class="form-group">
+                <label for="projectId">Project ID:</label>
+                <select id="projectId" name="projectId" required class="form-control">
+                    {% for project in projects %}
+                        <option value="{{ project['projectId'] }}" {% if project['projectId'] == design['projectId'] %}selected{% endif %}>
+                            {{ project['projectId'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Multi-select dropdown for user IDs -->
+            <div class="form-group">
+                <label for="userIds">User ID:</label>
+                <select id="userIds" name="userIds" class="form-control" multiple>
+                    <option value="">None</option>
+                    {% for user in users %}
+                        <option value="{{ user['userId'] }}" {% if user['userId'] in design_user_ids %}selected{% endif %}>
+                            {{ user['userId'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Add and cancel buttons -->
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{{ url_for('designs') }}" class="btn btn-cancel">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

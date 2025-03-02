@@ -1,0 +1,78 @@
+<!-- Authors: Derek Greene & Nathan Schuler
+     Date: 7/2024
+     Course: CS340 - Introduction to Databases
+-->
+
+{% extends "main.html" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+    <h1>Projects</h1>
+
+    <!-- Button to add project -->
+    <div class="button-container">
+        <a href="{{ url_for('add_project') }}" class="button">Add Project</a>
+    </div>
+    <div class="user-projects">
+        <table>
+            <thead>
+                <tr>
+                    <th>Project ID</th>
+                    <th>User ID</th>
+                    <th>User Name</th>
+                    <th>Project Status</th>
+                    <th class="actions">
+                        <div class="actions-header">Actions</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- Iterate through projects and display each project's details -->
+                {% for project_id, project_data in grouped_projects.items() %}
+
+                    <!-- Check if project has users -->
+                    {% if project_data.users %}
+                        {% for user in project_data.users %}
+                        <tr>
+                            <td>{{ project_id }}</td>
+                            <td>{{ user.userId }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ project_data.projectStatus }}</td>
+
+                            <!-- Buttons for edit and delete project -->
+                            <td class="actions">
+                                <a href="{{ url_for('edit_project', project_id=project_id) }}" class="button" title="Edit this project">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{{ url_for('delete_project', project_id=project_id) }}" class="button delete" onclick="return confirm('Are you sure?')" title="Delete this project">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+
+                    <!-- Text when no users assigned -->
+                    <tr>
+                        <td>{{ project_id }}</td>
+                        <td colspan="2">No user assigned</td>
+                        <td>{{ project_data.projectStatus }}</td>
+
+                        <!-- Buttons for edit and delete project (no user assigned) -->
+                        <td class="actions">
+                            <a href="{{ url_for('edit_project', project_id=project_id) }}" class="button" title="Edit this project">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a href="{{ url_for('delete_project', project_id=project_id) }}" class="button delete" onclick="return confirm('Are you sure?')" title="Delete this project">
+                                <i class="bi bi-trash3-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
