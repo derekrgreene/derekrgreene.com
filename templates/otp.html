@@ -1,0 +1,78 @@
+{% extends "portfolioItem.html" %}
+{% block content%}	
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>One Time Pad</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>One Time Pad</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/otp1.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/otp2.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <video width="600" height="500" controls>
+                    <source src="static/assets/img/portfolio/otp.mkv" type="video/mp4">
+                  </video>
+                </div>
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Language</strong>: C</li>
+                <li><strong>Course</strong>: Operating Systems I - CS 374</li>
+                <li><strong>Project date</strong>: March, 2025</li>
+                <li><div class="d-grid gap-2 col-10 mx-auto">
+                  <a href="https://github.com/derekgreene11/CS374/tree/master/otp" target="_blank" <button class="btn btn-primary" type="button"><i class="bi bi-github"></i> View on GitHub</button></a>
+                  <a href="./static/sources/otp.zip" <button class="btn btn-primary" type="button"><i class="bi bi-code-slash"></i> Download Code</button></a>
+                </div></li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>Details</h2>
+              <p>
+                This project consists of 5 programs that operate to form a One-Time-Pad; keygen creates a pseudo-encrypted key of a specified length, enc_server is an encryption server that accepts TCP socket connections and receives plaintext and key data 
+                from a client enc_client. Upon encrypting the plaintext, it is sent back to the enc_client and output to stdout. enc_server will only accept connections from enc_client. dec_server is a decryption server that reads ciphertext and key data from 
+                client dec_client, decrpytes the ciphertext, and sends it back to dec_client. dec_client outputs the decrypted text to stdout. dec_server will only accept connections from dec_client. Supported characters: [A-Z] and space.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+{% endblock %}	

@@ -1,0 +1,82 @@
+{% extends "portfolioItem.html" %}
+{% block content%}	
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Random Number Generator</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Random Number Generator</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/randomnumgen-details-1.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/randomnumgen-details-2.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <video width="500" height="500" controls>
+                    <source src="static/assets/img/portfolio/randomnumgen-details-3.mov" type="video/mp4">
+                  </video>
+                </div>
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Language</strong>: x86 Assembly</li>
+                <li><strong>Course</strong>: Computer Architecture & Assembly Language - CS 271</li>
+                <li><strong>Project date</strong>: June, 2024</li>
+                <li><div class="d-grid gap-2 col-10 mx-auto">
+                  <a href="https://github.com/derekgreene11/derekrgreene.com/blob/68624c6d8a725050c276d1484347fdb63cc0500c/RandomNumGen.asm" target="_blank" <button class="btn btn-primary" type="button"><i class="bi bi-github"></i> View on GitHub</button></a>
+                  <a href="./static/sources/randomnumgen.zip" <button class="btn btn-primary" type="button"><i class="bi bi-code-slash"></i> Download Code</button></a>
+                </div></li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>Details</h2>
+              <p>
+                Program displays title and programmers name, followed by an introduction explaining the
+                program. Program then generates 200 random numbers in range [15,50] (inclusive), converts them
+                to their ascii representation, directly and then writes them direectly into a text file.
+                These numbers are then read back into an ascii array which is then parsed into a decimal array. 
+                The unsorted random numbers are displayed first (ascii array) followed by the sorted numbers, 
+                and then the medium value of the array, followed by the number of instances fo reach value generated
+                in ascending order of instances. Numbers are displayed 20 per row. Program then displays goodbye message. 
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+{% endblock %} 

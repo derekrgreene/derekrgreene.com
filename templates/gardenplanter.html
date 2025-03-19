@@ -1,0 +1,76 @@
+{% extends "portfolioItem.html" %}
+{% block content%}	
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Garden Planter</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Garden Planter</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/garden-details-1.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/garden-details-2.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <video width="500" height="500" controls>
+                    <source src="static/assets/img/portfolio/garden-details-3.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Language</strong>: C++</li>
+                <li><strong>Course</strong>: Computer Science I (C++) - CS 161U</li>
+                <li><strong>Project date</strong>: September, 2023</li>
+                <li><div class="d-grid gap-2 col-10 mx-auto">
+                  <a href="https://github.com/derekgreene11/derekrgreene.com/blob/19cd0e01451b0fb8efbf1906b9d12142b0ec1c61/Gardenplanter.cpp" target="_blank" <button class="btn btn-primary" type="button"><i class="bi bi-github"></i> View on GitHub</button></a>
+                  <a href="./static/sources/Gardenplanter.zip" <button class="btn btn-primary" type="button"><i class="bi bi-code-slash"></i> Download Code</button></a>
+                </div></li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>Details</h2>
+              <p>
+                Using C++ I designed a program to calculate the area needed to plant n number of plants with x width and y length. The program starts by asking for the total size of the garden plot in square feet. Users may then continue to enter the width and length for each row and the number of rows. If the cacluated area is > the total plot size, the program will return "not enough space for this plant", along with the remaining square footage available after adding each plant.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+{% endblock %}

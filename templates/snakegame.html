@@ -1,0 +1,76 @@
+{% extends "portfolioItem.html" %}
+{% block content%}	
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Classic Snake Game</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Classic Snake Game</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/snake-details-1.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/snake-details-2.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <video width="500" height="500" controls>
+                    <source src="static/assets/img/portfolio/snake-details-3.m4v" type="video/mp4">
+                  </video>
+                </div>
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Language</strong>: Python</li>
+                <li><strong>Course</strong>: Introduction to Computer Science - CS 160</li>
+                <li><strong>Project date</strong>: November, 2024</li>
+                <li><div class="d-grid gap-2 col-10 mx-auto">
+                  <a href="https://github.com/derekgreene11/derekrgreene.com/blob/8aad0103505d00985454c440639a7a2e9a287d25/Snake.py" target="_blank" <button class="btn btn-primary" type="button"><i class="bi bi-github"></i> View on GitHub</button></a>
+                  <a href="./static/sources/Snake.py.zip" <button class="btn btn-primary" type="button"><i class="bi bi-code-slash"></i> Download Code</button></a>
+                </div></li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>Details</h2>
+              <p>
+                Using the python module Turtle, I created the classic game of snake. The program initializes a 600px x 600px window in which the current score and high score are displayed, along with the "snake" and "food" objects. The up, down, left, and right arrow keys are used to control the movement of the snake head. Upon collision with food objects (in this case turtles), a new segment is added to the snake corresponding to the color of the food object.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+{% endblock %} 

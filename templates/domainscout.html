@@ -1,0 +1,94 @@
+{% extends "portfolioItem.html" %}
+{% block content%}	
+<body>
+  <div class="bmc-container">
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="derekgreene" data-description="Support me on Buy me a coffee!" data-message="" data-color="#149ddd" data-position="left" data-x_margin="115" data-y_margin="60"></script>
+    </div>
+    <style>
+      @media (max-width: 768px) {
+        .bmc-container {
+          display: none;
+        }
+        #bmc-wbtn,
+        iframe[id^="bmc-widget"] {
+          display: none !important;
+        }
+      }
+    </style>
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Domain Scout</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Domain Scout</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/Domain-Scout.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/domain-scout-details2.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <video width="500" height="500" controls>
+                    <source src="static/assets/img/portfolio/domain-scout-details3.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Language</strong>: Python</li>
+                <li><strong>Course</strong>: Software Engineering I - CS 361</li>
+                <li><strong>Project date</strong>: December, 2024</li>
+                <li><div class="d-grid gap-2 col-10 mx-auto">
+                  <a href="https://github.com/derekgreene11/Domain-Scout.git" target="_blank" <button class="btn btn-primary" type="button"><i class="bi bi-github"></i> View on GitHub</button></a>
+                  <a href="https://pypi.org/project/DomainScout/" target="_blank" <button class="btn btn-primary" type="button"><i class="bi bi-boxes"></i> View on PyPi</button></a>
+                  <a href="./static/sources/Domain-Scout.zip" <button class="btn btn-primary" type="button"><i class="bi bi-code-slash"></i> Download Code</button></a>
+                </div></li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>Details</h2>
+              <p>
+                 Domain Scout is the primary GUI to view vulnerable domains found by CT Domain Data (see https://derekrgreene.com/ct-data). CT Domain Data identifies disposable email addresses used as contact methods in WHOIS records. Domains are collected using Certstream Server Go which streams Certificate Transparency logs continuously to a websocket connection. Domains are extracted from the data stream and WHOIS queries are subsequently made to identify contact email addresses which are compared against a list of 15k+ known disposable email domains. If a disposable email address is found, the domain and associated data is added to the database and displayed in Domain Scout.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+</body>
+{% endblock %}	

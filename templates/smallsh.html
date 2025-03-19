@@ -1,0 +1,79 @@
+{% extends "portfolioItem.html" %}
+{% block content%}	
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Small Shell</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Small Shell</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/smallsh1.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/smallsh2.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <video width="600" height="500" controls>
+                    <source src="static/assets/img/portfolio/smallsh.mkv" type="video/mp4">
+                  </video>
+                </div>
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Language</strong>: C</li>
+                <li><strong>Course</strong>: Operating Systems I - CS 374</li>
+                <li><strong>Project date</strong>: February, 2025</li>
+                <li><div class="d-grid gap-2 col-10 mx-auto">
+                  <a href="https://github.com/derekgreene11/CS374/blob/master/smallsh/smallsh.c" target="_blank" <button class="btn btn-primary" type="button"><i class="bi bi-github"></i> View on GitHub</button></a>
+                  <a href="./static/sources/smallsh.zip" <button class="btn btn-primary" type="button"><i class="bi bi-code-slash"></i> Download Code</button></a>
+                </div></li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>Details</h2>
+              <p>
+                This program implements a simple shell that can run commands in the foreground and background, with input and output redirection.
+                It also handles built-in commands such as exit, cd, and status. Signals such as SIGINT, SIGCHLD, and SIGTSTP are handled as well.
+                Comments can be added to the input by starting the line with '#'. Blank lines are ignored. The '&' character can be used to run
+                a command in the background. Program will terminate upon 'exit' command.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+{% endblock %} 

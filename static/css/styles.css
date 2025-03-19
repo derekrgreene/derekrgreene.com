@@ -458,3 +458,13 @@ ul, ol {
 .btn-cancel:hover {
     background-color: darkred;
 }
+
+@media (max-width: 768px) {
+    .bmc-container {
+      display: none;
+    }
+    #bmc-wbtn,
+    iframe[id^="bmc-widget"] {
+      display: none !important;
+    }
+  }

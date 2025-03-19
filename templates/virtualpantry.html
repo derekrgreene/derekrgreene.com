@@ -1,0 +1,77 @@
+{% extends "portfolioItem.html" %}
+{% block content%}	
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Virtual Pantry</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Virtual Pantry</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/pantry-details-1.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <img src="static/assets/img/portfolio/pantry-details-2.png" alt="">
+                </div>
+
+                <div class="swiper-slide">
+                  <video width="500" height="500" controls>
+                    <source src="static/assets/img/portfolio/pantry-details-3.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Project information</h3>
+              <ul>
+                <li><strong>Language</strong>: C++</li>
+                <li><strong>Course</strong>: Computer Science I (C++) - CS 161U</li>
+                <li><strong>Project date</strong>: August, 2023</li>
+                <li><div class="d-grid gap-2 col-10 mx-auto">
+                  <a href="https://github.com/derekgreene11/derekrgreene.com/blob/eaa61cf0717d9c5cbf74c584c5f6422d6a4f489d/Virtualpantry.cpp" target="_blank" <button class="btn btn-primary" type="button"><i class="bi bi-github"></i> View on GitHub</button></a>
+                  <a href="./static/sources/Virtualpantry.zip" <button class="btn btn-primary" type="button"><i class="bi bi-code-slash"></i> Download Code</button></a>
+                </div></li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>Details</h2>
+              <p>
+                Using C++, I created a virtual pantry for ingredients on hand. The program accepts the following functions: add ingredient, remove ingredient, search for ingredient, edit ingredient, save ingredients to file, display ingredients, and check recipie for ingredients. Upon program start, "on-hand" ingredients are read from a text file saved in the same directory as the source code with the name "pantry.txt'. The check recipie for ingredients function compares the ingredients in the text file pantry.txt to any other text file and returns the missing ingredients.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+{% endblock %} 
