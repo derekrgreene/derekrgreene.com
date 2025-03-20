@@ -11,28 +11,25 @@
 
 const data = await d3.json("/static/sources/research/DCV-Dependencies/data.json");
 
-// Specify the dimensions of the chart.
+// Dimensions of the chart.
 const width = 1200;
 const height = 1200; 
-
-
 const rowSpacing = 100;
 const columnSpacing = 100; 
-
 const defaultOpacity = 0.5;
-
 const circleRadius = 10;
 const arrowWidth = 4;
 const arrowHeight = 4;
 const arrowSpacing = circleRadius + 3 * arrowHeight;
 
+
 // Specify the color scale.
 const color = d3.scaleOrdinal(d3.schemeCategory10);
-
 const links = data.links
 const nodes = data.nodes
-
 let totalItemsPerRow = {}
+
+
 // Assign x and y coordinates to nodes
 nodes.forEach((d, i) => {
     if (totalItemsPerRow[d.row] === undefined) { totalItemsPerRow[d.row] = 1; } else { totalItemsPerRow[d.row] += 1; }
@@ -182,7 +179,6 @@ const node = svg.append("g")
 node.append("title")
     .text(d => d.display);
 
-
 link.append("title")
     .text(d => `BR section: ${d.br_section}`);
 
@@ -199,6 +195,70 @@ svg.append("g")
     .text(d => d.display);
 
 let clickedSection = false;
+
+// row labels
+const rowNames = {
+    1: "Subscriber submits CSR",
+    2: "Domain contact information query",
+    3: "Dependencies",
+    4: "Nonce tranmission",
+    5: "Nonce reciept"
+};
+
+const rowLabels = svg.append("g")
+    .attr("id", "row-labels")
+    .selectAll("text")
+    .data(Object.keys(totalItemsPerRow).sort((a, b) => a - b)) 
+    .join("text")
+    .attr("x", -width / 2.5 + 20)
+    .attr("y", d => d * rowSpacing)
+    .attr("text-anchor", "start")
+    .attr("dominant-baseline", "middle")
+    .attr("fill", d => color(d))
+    .attr("font-size", "14px")
+    .text(d => rowNames[d]);
+
+// row hover and click functionality
+rowLabels
+    .on("mouseover", (event, d) => {
+        if (!clickedRow) {
+            fadeAll();
+            highlightRow(d);
+        }
+    })
+    .on("mouseout", (event, d) => {
+        if (!clickedRow) { 
+            unfadeAll();
+        }
+    })
+    .on("click", (event, d) => {
+        if (clickedRow === Number(d)) {
+            clickedRow = false;
+            unfadeAll();
+        } else {
+            clickedRow = Number(d);
+            fadeAll();
+            highlightRow(d);
+        }
+    });
+
+    function highlightRow(row) {
+        const rowNum = Number(row);
+        
+        node.filter(d => d.row === rowNum)
+            .attr("opacity", 1);
+        
+        svg.selectAll(`text[id^="label-"]`)
+            .filter(d => d.row === rowNum)
+            .attr("opacity", 1);
+        
+        rowLabels.filter(d => Number(d) === rowNum)
+            .attr("opacity", 1);
+    }
+
+let clickedRow = false;
+
+
 // legend with BR sections
 svg.append("g")
     .selectAll("text")
@@ -239,9 +299,14 @@ svg.append("g")
 
 // TODO: labels for different rows
 
-
 container.append(svg.node());
 
 </script>
+<!-- Overflow style for SVG container to prevent text cut off -->
+<style>
+svg {
+    overflow: visible;
+}
+</style>
 </div>
 {% endblock %} 
