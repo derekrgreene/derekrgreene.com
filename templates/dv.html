@@ -1,5 +1,6 @@
 {% extends "portfolioItem.html" %}
 {% block content%}	
+<section id="research" class="resume">
 <main id="main">
 <div id="container">
 
@@ -13,7 +14,7 @@ const data = await d3.json("/static/sources/research/DCV-Dependencies/data.json"
 
 // Dimensions of the chart.
 const width = 1200;
-const height = 1200; 
+const height = 600; 
 const rowSpacing = 100;
 const columnSpacing = 100; 
 const defaultOpacity = 0.5;
@@ -297,7 +298,6 @@ svg.append("g")
 
 // TODO: unique curvature for overlapping links
 
-// TODO: labels for different rows
 
 container.append(svg.node());
 
@@ -309,4 +309,5 @@ svg {
 }
 </style>
 </div>
+</section>
 {% endblock %} 
