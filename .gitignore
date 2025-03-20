@@ -85,6 +85,7 @@ domains.json
 
 # Data
 *.json
+!static/sources/research/DCV-Dependencies/data.json
 
 # Logs
 *.out
