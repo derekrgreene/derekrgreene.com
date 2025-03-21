@@ -7,9 +7,6 @@ app = Flask(__name__)
 app.config['CACHE_TYPE'] = 'simple'
 cache = Cache(app)
 
-@app.route('/error')
-def trigger_error():
-    raise Exception("This is a test error!")
 
 @app.errorhandler(404)
 def notFound(error):
