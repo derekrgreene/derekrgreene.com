@@ -7,16 +7,24 @@ app = Flask(__name__)
 app.config['CACHE_TYPE'] = 'simple'
 cache = Cache(app)
 
+@app.route('/error')
+def trigger_error():
+    raise Exception("This is a test error!")
+
+@app.errorhandler(404)
+def notFound(error):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internalError(error):
+    return render_template('500.html'), 500
+
 
 @app.route('/')
 @cache.cached(timeout=3600) # 1 hour
 def index():      
     return render_template('index.html')
-
-
-@app.route('/robots.txt')
-def robots():
-    return Response("User-agent: *\nAllow: /\nSitemap: https://derekrgreene.com/sitemap.xml",mimetype="text/plain")
 
 
 @app.route('/DCV-Dependencies')
@@ -69,6 +77,11 @@ def virtualPantry():
     return render_template('virtualpantry.html')
 
 
+@app.route('/robots.txt')
+def robots():
+    return Response("User-agent: *\nAllow: /\nSitemap: https://derekrgreene.com/sitemap.xml",mimetype="text/plain")
+
+
 @app.route('/sitemap.xml')
 def sitemap():
     baseUrl = "https://derekrgreene.com"
@@ -104,4 +117,4 @@ def sitemap():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8050, debug=True) 
+    app.run(host='0.0.0.0', port=8050, debug=False) 

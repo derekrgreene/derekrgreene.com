@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Internal Server Error</title>
+    <style>
+        body {
+            font-family: "Open Sans", sans-serif;
+            color: #272829;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url("static/assets/img/hero-bg.avif") no-repeat;
+            background-size: cover;
+        }
+
+        a {
+            color: #149ddd;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #37b3ed;
+            text-decoration: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Raleway", sans-serif;
+        }
+
+        .error-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .error-code {
+            font-size: 80px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin: 0;
+        }
+
+        .error-message {
+            font-size: 18px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .home-button {
+            display: inline-block;
+            background: #149ddd;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .home-button:hover {
+            background: #37b3ed;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1 class="error-code">404</h1>
+        <p class="error-message">Something went wrong on our end... Please try again later!</p>
+        <a href="{{ url_for('index') }}" class="home-button">Go Home</a>
+    </div>
+</body>
+</html>
