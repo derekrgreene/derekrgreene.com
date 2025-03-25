@@ -73,6 +73,11 @@ def snakeGame():
 def virtualPantry():
     return render_template('virtualpantry.html')
 
+@app.route("/pgp")
+def pgp():
+    with open("pgp.asc", "r") as keyfile:
+        keydata = keyfile.read()
+    return Response(keydata, mimetype="text/plain")
 
 @app.route('/robots.txt')
 def robots():
