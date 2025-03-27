@@ -26,7 +26,7 @@ def deploy():
         return "Invalid signature", 403
 
     # Pull the latest changes and restart the derekrgreene.com service
-    subprocess.run("cd /var/www/derekrgreene.com && git pull origin master && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart derekrgreene.com.service", shell=True)
+    subprocess.run("cd /var/www/derekrgreene.com && git pull && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart derekrgreene.com.service", shell=True)
     
     return "Deployment successful!", 200
 
