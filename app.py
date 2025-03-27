@@ -10,7 +10,7 @@ load_dotenv()
 app = Flask(__name__)
 
 
-GITHUB = b"f8krmY7TJsrpOs8zLsSMfNFW6No2W_unWqW5C-FgChc="
+GITHUB_SECRET = b"f8krmY7TJsrpOs8zLsSMfNFW6No2W_unWqW5C-FgChc="
 SUDO_PASSWORD = os.getenv('SUDO_PASSWORD')
 app.config['CACHE_TYPE'] = 'simple'
 cache = Cache(app)
