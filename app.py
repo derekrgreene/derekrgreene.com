@@ -10,29 +10,33 @@ load_dotenv()
 app = Flask(__name__)
 
 
-GITHUB_SECRET = bytes(os.getenv("GITHUB_SECRET"), "utf-8")
+GITHUB = b"f8krmY7TJsrpOs8zLsSMfNFW6No2W_unWqW5C-FgChc="
 SUDO_PASSWORD = os.getenv('SUDO_PASSWORD')
 app.config['CACHE_TYPE'] = 'simple'
 cache = Cache(app)
 
 
 def verify_signature(payload, signature):
-    mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256)
-    return hmac.compare_digest("sha256=" + mac.hexdigest(), signature)
+    """Verifies the GitHub webhook signature."""
+    expected_mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256).hexdigest()
+    expected_signature = f"sha256={expected_mac}"
+
+    print(f"Received Signature: {signature}")
+    print(f"Expected Signature: {expected_signature}")
+
+    return hmac.compare_digest(expected_signature, signature)
 
 @app.route("/deploy", methods=["POST"])
 def deploy():
     signature = request.headers.get("X-Hub-Signature-256")
     if not signature or not verify_signature(request.data, signature):
         return "Invalid signature", 403
+    else:
 
-    try:
         subprocess.run("/usr/bin/git pull && source venv/bin/activate && pip install -r requirements.txt", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
 
         return "Deployment successful!", 200
-    except subprocess.CalledProcessError as e:
-        return f"Error during deployment: {e}", 500
 
 
 
@@ -159,4 +163,4 @@ def sitemap():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8050, debug=False) 
+    app.run(host='0.0.0.0', port=8050, debug=True) 
