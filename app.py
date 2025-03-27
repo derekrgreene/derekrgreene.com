@@ -24,16 +24,27 @@ def deploy():
     signature = request.headers.get("X-Hub-Signature-256")
     if not signature or not verify_signature(request.data, signature):
         return "Invalid signature", 403
-
+    
     try:
-        git_pull = subprocess.run("/usr/bin/git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        git_pull = subprocess.run("/usr/bin/git pull", 
+                                  shell=True, 
+                                  check=True, 
+                                  cwd="/var/www/derekrgreene.com", 
+                                  stdout=subprocess.PIPE, 
+                                  stderr=subprocess.PIPE)
         print("Git pull output:", git_pull.stdout.decode())
         print("Git pull errors:", git_pull.stderr.decode())
-        restart_service = subprocess.run("/usr/bin/sudo /bin/systemctl restart derekrgreene.com.service", shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+        restart_service = subprocess.run("/usr/bin/sudo -n /bin/systemctl restart derekrgreene.com.service", 
+                                         shell=True, 
+                                         check=True, 
+                                         stdout=subprocess.PIPE, 
+                                         stderr=subprocess.PIPE)
         print("Service restart output:", restart_service.stdout.decode())
         print("Service restart errors:", restart_service.stderr.decode())
-
+        
         return "Deployment successful!", 200
+    
     except subprocess.CalledProcessError as e:
         return f"Error during deployment: {e}", 500
 
