@@ -1,11 +1,34 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, request
 from flask_caching import Cache
-import datetime
+import datetime, hmac, hashlib, subprocess, os
+from dotenv import load_dotenv
 
+
+
+
+load_dotenv()
 app = Flask(__name__)
 
+
+GITHUB_SECRET = os.getenv("GITHUB_SECRET")
 app.config['CACHE_TYPE'] = 'simple'
 cache = Cache(app)
+
+
+def verify_signature(payload, signature):
+    mac = hmac.new(GITHUB_SECRET.encode(), payload, hashlib.sha256)
+    return hmac.compare_digest("sha256=" + mac.hexdigest(), signature)
+
+@app.route("/deploy", methods=["POST"])
+def deploy():
+    signature = request.headers.get("X-Hub-Signature-256")
+    if not signature or not verify_signature(request.data, signature):
+        return "Invalid signature", 403
+
+    # Pull the latest changes and restart the derekrgreene.com service
+    subprocess.run("cd /var/www/derekrgreene.com && git pull origin master && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart derekrgreene.com.service", shell=True)
+    
+    return "Deployment successful!", 200
 
 
 @app.errorhandler(404)
