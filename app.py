@@ -17,7 +17,7 @@ cache = Cache(app)
 
 
 def verify_signature(payload, signature):
-    mac = hmac.new(GITHUB_SECRET.encode(), payload, hashlib.sha256)
+    mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256)
     return hmac.compare_digest("sha256=" + mac.hexdigest(), signature)
 
 @app.route("/deploy", methods=["POST"])
@@ -27,12 +27,26 @@ def deploy():
         return "Invalid signature", 403
 
     try:
-        subprocess.run("/usr/bin/git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run("/usr/bin/git pull && source venv/bin/activate && pip install -r requirements.txt", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
 
         return "Deployment successful!", 200
     except subprocess.CalledProcessError as e:
         return f"Error during deployment: {e}", 500
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+    
 
 @app.errorhandler(404)
 def notFound(error):
