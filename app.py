@@ -23,15 +23,26 @@ def verify_signature(payload, signature):
 @app.route("/deploy", methods=["POST"])
 def deploy():
     signature = request.headers.get("X-Hub-Signature-256")
+    print(f"Received signature: {signature}")  # Debug print for received signature
+    
     if not signature or not verify_signature(request.data, signature):
+        print("Invalid signature or verification failed.")  # Debug print for failed signature
         return "Invalid signature", 403
 
     try:
-        subprocess.run("/usr/bin/git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True)
+        print("Starting git pull...")  # Debug print before git pull
+        result = subprocess.run("/usr/bin/git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print(f"Git pull output: {result.stdout.decode()}")  # Print the output of the git pull
+        print(f"Git pull error (if any): {result.stderr.decode()}")  # Print any errors from the git pull
+
+        print("Restarting service...")  # Debug print before restarting the service
+        subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
+        print("Service restart command executed.")  # Debug print after the service restart
+
         return "Deployment successful!", 200
     
     except subprocess.CalledProcessError as e:
+        print(f"Error during deployment: {e}")  # Debug print for error during subprocess
         return f"Error during deployment: {e}", 500
 
 @app.errorhandler(404)
