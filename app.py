@@ -31,11 +31,11 @@ def deploy():
     signature = request.headers.get("X-Hub-Signature-256")
     if not signature or not verify_signature(request.data, signature):
         return "Invalid signature", 403
-    else:
-        subprocess.run("/usr/bin/git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
+    
+    subprocess.run("/usr/bin/git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl reload derekrgreene.com.service", shell=True, check=True)
 
-        return "Deployment successful!", 200
+    return "Deployment successful!", 200
 
 
 
