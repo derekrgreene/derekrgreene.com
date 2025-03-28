@@ -9,20 +9,20 @@ services:
       - .env
     restart: always
 
-db:
+  db:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${340DBPW}
       MYSQL_DATABASE: ${340DB}
-      MYSQL_USER: ${340DBUSER}
-      MYSQL_PASSWORD: ${340DBPW}
+      MYSQL_USER: ${340DBPW}
+      MYSQL_PASSWORD: ${340DBPW} 
     ports:
-      - "3306:3306"
+      - "3306:3306" 
     volumes:
       - db_data:/var/lib/mysql
     restart: always
 
-engdb:
+  engdb:
     build:
       context: ./flask_proj
     ports:
