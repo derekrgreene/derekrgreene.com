@@ -37,7 +37,7 @@ cp .env flask_proj/.env
 
 ### 4. Build and Initialize Docker Containers
 ```bash
-docker-compose up -d
+sudo docker-compose up -d
 ```
 
 ### 5. Database User Setup
