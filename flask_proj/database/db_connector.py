@@ -13,7 +13,10 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 # Get db credentials from environment variables
-host = os.environ.get("DBHOST")
+if os.getenv("DOCKER_ENV"):   # Check if running in Docker 
+    host = os.getenv("DBHOST", "db")  # Use Docker service name
+else:
+    host = os.getenv("DBHOST", "localhost")  # Use localhost for normal deployment
 user = os.environ.get("DBUSER")
 passwd = os.environ.get("DBPW")
 db = os.environ.get("DB")
