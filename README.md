@@ -23,7 +23,7 @@ Create a `.env` file in the project root directory with the following variables:
 DOCKER_ENV=1
 GITHUB_SECRET=<your_github_webhook_secret>
 SUDO_PASSWORD=<your_sudo_password>
-DBHOST=<database_host>
+DBHOST=db
 DBUSER=<database_username>
 DBPW=<database_password>
 DB=<database_name>
@@ -45,7 +45,7 @@ docker-compose up -d
 
 #### Find MySQL Container Name
 ```bash
-docker ps
+sudo docker ps
 ```
 Look for the container with MySQL image.
 
