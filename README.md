@@ -11,7 +11,7 @@
 
 ## Setup Steps
 
-### 1. Clone the Repository
+### 1. Pull Docker Image
 ```bash
 git clone https://github.com/derekgreene11/derekrgreene.com.git
 cd derekrgreene.com
@@ -29,18 +29,22 @@ DBPW=<database_password>
 DB=<database_name>
 ```
 
-
 ### 3. Copy .env to EngDB Project
 ```bash
 cp .env flask_proj/.env
 ```
 
-### 4. Build and Initialize Docker Containers
+### 4. Pull the Docker Image
 ```bash
-sudo docker-compose up -d
+docker pull derekgreene11/derekrgreene.com
 ```
 
-### 5. Database User Setup
+### 5. Run the container
+```bash
+docker run --name container-name derekgreene11/derekrgreene.com:latest
+```
+
+### 6. Database User Setup
 
 #### Find MySQL Container Name
 ```bash
@@ -62,17 +66,6 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
-### 6. Stopping and Restarting
-
-#### Stop Containers
-```bash
-docker-compose down
-```
-
-#### Restart Containers
-```bash
-docker-compose up --build
-```
 
 ## Troubleshooting
 - Ensure all environment variables are correctly set
