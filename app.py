@@ -32,8 +32,7 @@ def deploy():
     if not signature or not verify_signature(request.data, signature):
         return "Invalid signature", 403
     else:
-
-        subprocess.run("/usr/bin/git pull && source venv/bin/activate && pip install -r requirements.txt", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run("/usr/bin/git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
 
         return "Deployment successful!", 200
