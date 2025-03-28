@@ -140,7 +140,7 @@ def deploy():
     return "Deployment successful!", 200
 
 def delayed_service_restart():
-    time.sleep(60)
+    time.sleep(30)
     subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
 
 
