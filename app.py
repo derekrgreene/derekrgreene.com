@@ -10,20 +10,15 @@ load_dotenv()
 app = Flask(__name__)
 
 
-GITHUB_SECRET = b"f8krmY7TJsrpOs8zLsSMfNFW6No2W_unWqW5C-FgChc="
+GITHUB_SECRET = os.getenv('GITHUB_SECRET')
 SUDO_PASSWORD = os.getenv('SUDO_PASSWORD')
 app.config['CACHE_TYPE'] = 'simple'
 cache = Cache(app)
 
 
 def verify_signature(payload, signature):
-    """Verifies the GitHub webhook signature."""
     expected_mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256).hexdigest()
     expected_signature = f"sha256={expected_mac}"
-
-    print(f"Received Signature: {signature}")
-    print(f"Expected Signature: {expected_signature}")
-
     return hmac.compare_digest(expected_signature, signature)
 
 @app.route("/deploy", methods=["POST"])
@@ -33,6 +28,7 @@ def deploy():
         return "Invalid signature", 403
     
     subprocess.run("source venv/bin/activate && pip install -r requirements.txt && git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
     return "Deployment successful!", 200
 
 
