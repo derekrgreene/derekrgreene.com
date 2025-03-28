@@ -19,7 +19,7 @@ SUDO_PASSWORD=<your_sudo_password>
 DBHOST=db
 DBUSER=<database_username>
 DBPW=<database_password>
-DB=<database_name>
+DB=cs340
 ```
 
 ### Copy .env to EngDB Project
