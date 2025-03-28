@@ -14,7 +14,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DBPW}
       MYSQL_DATABASE: ${DB}
-      MYSQL_USER: ${DBPW}
+      MYSQL_USER: ${DBUSER}
       MYSQL_PASSWORD: ${DBPW} 
     ports:
       - "3306:3306" 
