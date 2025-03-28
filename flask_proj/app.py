@@ -523,4 +523,4 @@ def delete_user(user_id):
 
 # Listener
 if __name__ == "__main__":
-    app.run(host='', port=(8051), debug=False)
+    app.run(host='db', port=(8051), debug=False)
