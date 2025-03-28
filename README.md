@@ -37,7 +37,6 @@ cp .env flask_proj/.env
 
 ### 4. Build and Initialize Docker Containers
 ```bash
-docker-compose build
 docker-compose up -d
 ```
 
