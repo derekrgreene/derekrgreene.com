@@ -4,11 +4,6 @@
 
 # Deploy with Docker
 
-## Prerequisites
-- Docker
-- Docker Compose
-- Git
-
 ## Setup Steps
 
 ### 1. Pull Docker Image
