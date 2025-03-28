@@ -92,6 +92,3 @@ domains.json
 
 # Cron Jobs
 cron_jobs/
-
-# Vendor JS, CSS, etc
-static/assets/vendor/
