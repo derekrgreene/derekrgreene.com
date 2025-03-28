@@ -20,6 +20,7 @@ cd derekrgreene.com
 ### 2. Create Environment File
 Create a `.env` file in the project root directory with the following variables:
 ```
+DOCKER_ENV=1
 GITHUB_SECRET=<your_github_webhook_secret>
 SUDO_PASSWORD=<your_sudo_password>
 DBHOST=<database_host>
@@ -27,6 +28,7 @@ DBUSER=<database_username>
 DBPW=<database_password>
 DB=<database_name>
 ```
+
 
 ### 3. Copy .env to EngDB Project
 ```bash
