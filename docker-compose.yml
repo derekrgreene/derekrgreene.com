@@ -19,7 +19,7 @@ services:
     ports:
       - "3306:3306" 
     volumes:
-      - db_data:/var/lib/mysql
+      - ./flask_proj/database/es_db.sql:/docker-entrypoint-initdb.d/es_db.sql
     restart: always
 
   engdb:
