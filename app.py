@@ -24,7 +24,7 @@ def verify_signature(payload, signature):
     print(f"Received Signature: {signature}")
     print(f"Expected Signature: {expected_signature}")
 
-    return hmac.compare_digest(GITHUB_SECRET, signature.encode())
+    return hmac.compare_digest(expected_signature, signature)
 
 @app.route("/deploy", methods=["POST"])
 def deploy():
@@ -33,7 +33,7 @@ def deploy():
         return "Invalid signature", 403
     
     subprocess.run("/usr/bin/git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl reload derekrgreene.com.service", shell=True, check=True)
+    #subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
 
     return "Deployment successful!", 200
 
