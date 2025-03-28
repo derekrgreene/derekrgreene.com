@@ -4,8 +4,6 @@ import datetime, hmac, hashlib, subprocess, os
 from dotenv import load_dotenv
 
 
-
-
 load_dotenv()
 app = Flask(__name__)
 
@@ -15,35 +13,6 @@ SUDO_PASSWORD = os.getenv('SUDO_PASSWORD')
 app.config['CACHE_TYPE'] = 'simple'
 cache = Cache(app)
 
-
-def verify_signature(payload, signature):
-    expected_mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256).hexdigest()
-    expected_signature = f"sha256={expected_mac}"
-    return hmac.compare_digest(expected_signature, signature)
-
-@app.route("/deploy", methods=["POST"])
-def deploy():
-    signature = request.headers.get("X-Hub-Signature-256")
-    if not signature or not verify_signature(request.data, signature):
-        return "Invalid signature", 403
-    
-    subprocess.run("source venv/bin/activate && pip install -r requirements.txt && git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
-    return "Deployment successful!", 200
-
-
-
-
-
-
-
-
-  
-    
-    
-    
-    
-    
 
 @app.errorhandler(404)
 def notFound(error):
@@ -154,6 +123,21 @@ def sitemap():
     
     return Response(xml_content, mimetype='application/xml')
 
+def verify_signature(payload, signature):
+    expected_mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256).hexdigest()
+    expected_signature = f"sha256={expected_mac}"
+    return hmac.compare_digest(expected_signature, signature)
+
+@app.route("/deploy", methods=["POST"])
+def deploy():
+    signature = request.headers.get("X-Hub-Signature-256")
+    if not signature or not verify_signature(request.data, signature):
+        return "Invalid signature", 403
+    
+    subprocess.run("source venv/bin/activate && pip install -r requirements.txt && git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
+    return "Deployment successful!", 200
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8050, debug=True) 
+    app.run(host='0.0.0.0', port=8050, debug=False) 
