@@ -13,8 +13,7 @@
 
 ### 1. Pull Docker Image
 ```bash
-git clone https://github.com/derekgreene11/derekrgreene.com.git
-cd derekrgreene.com
+docker pull derekgreene11/derekrgreene.com
 ```
 
 ### 2. Create Environment File
@@ -32,11 +31,6 @@ DB=<database_name>
 ### 3. Copy .env to EngDB Project
 ```bash
 cp .env flask_proj/.env
-```
-
-### 4. Pull the Docker Image
-```bash
-docker pull derekgreene11/derekrgreene.com
 ```
 
 ### 5. Run the container
