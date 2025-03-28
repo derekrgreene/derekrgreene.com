@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response, request
 from flask_caching import Cache
-import datetime, hmac, hashlib, subprocess, os
+import datetime, hmac, hashlib, subprocess, os, time, threading
 from dotenv import load_dotenv
 
 
@@ -135,8 +135,14 @@ def deploy():
         return "Invalid signature", 403
     
     subprocess.run("source venv/bin/activate && pip install -r requirements.txt && git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
+    #subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
+    threading.Thread(target=delayed_service_restart, daemon=True).start()
     return "Deployment successful!", 200
+
+def delayed_service_restart():
+    time.sleep(10)
+    subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
+
 
 
 if __name__ == '__main__':
