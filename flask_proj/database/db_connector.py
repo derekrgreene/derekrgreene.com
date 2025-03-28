@@ -13,10 +13,10 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 # Get db credentials from environment variables
-host = os.environ.get("340DBHOST")
-user = os.environ.get("340DBUSER")
-passwd = os.environ.get("340DBPW")
-db = os.environ.get("340DB")
+host = os.environ.get("DBHOST")
+user = os.environ.get("DBUSER")
+passwd = os.environ.get("DBPW")
+db = os.environ.get("DB")
 
 # Function to connect to the database using pymysql
 def connect_to_database(host=host, user=user, passwd=passwd, db=db):
