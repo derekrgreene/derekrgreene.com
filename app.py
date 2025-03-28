@@ -24,7 +24,7 @@ def verify_signature(payload, signature):
     print(f"Received Signature: {signature}")
     print(f"Expected Signature: {expected_signature}")
 
-    return hmac.compare_digest(expected_signature, signature)
+    return hmac.compare_digest(GITHUB_SECRET, signature.encode())
 
 @app.route("/deploy", methods=["POST"])
 def deploy():
