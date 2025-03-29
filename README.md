@@ -57,12 +57,12 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
-### 📚 Troubleshooting
+## 📚 Troubleshooting
 - Ensure all environment variables are correctly set
 - Check Docker logs for any initialization errors
 - Verify network connectivity between containers
 
-### ⚠️ Security Notes
+## ⚠️ Security Notes
 - Never commit the `.env` file to version control
 
 Developed with :green_heart: by [Derek R. Greene](https://derekrgreene.com)
