@@ -20,6 +20,8 @@ DBHOST=db
 DBUSER=<database_username>
 DBPW=<database_password>
 DB=cs340
+DB_HOST=db2
+DB_NAME=domain_data
 ```
 
 ### Copy .env to EngDB Project
