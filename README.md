@@ -31,7 +31,7 @@ OUTPUT_DIR=/tmp/
 cp .env flask_proj/.env
 ```
 
- ## ⚙️ Build and Initialize Docker Containers
+## ⚙️ Build and Initialize Docker Containers
  ```bash
  docker-compose up --build
  ```
