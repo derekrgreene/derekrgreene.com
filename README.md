@@ -2,7 +2,7 @@
 <p align="center"><a href="https://www.buymeacoffee.com/derekgreene"> <img align="center" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="derekgreene" /></a></p><br><br>
 
 
-# Deploy with Docker
+# 🚀 Deploy with Docker
 
 
 ### Clone the Repository
@@ -11,7 +11,7 @@
  cd derekrgreene.com
  ```
 
-### Create Environment File
+### ✨ Environment Variables
 Create a `.env` file in the project root directory with the following variables:
 ```
 DOCKER_ENV=1
@@ -31,14 +31,13 @@ OUTPUT_DIR=/tmp/
 cp .env flask_proj/.env
 ```
 
- ###  Build and Initialize Docker Containers
+ ### ⚙️ Build and Initialize Docker Containers
  ```bash
  docker-compose up --build
  ```
 
 ### Database User Setup
-
-### Find MySQL Container Name
+Find MySQL Container Name
 ```bash
 sudo docker ps
 ```
@@ -58,10 +57,12 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
-## Troubleshooting
+## 📚 Troubleshooting
 - Ensure all environment variables are correctly set
 - Check Docker logs for any initialization errors
 - Verify network connectivity between containers
 
-## Security Notes
+## ⚠️ Security Notes
 - Never commit the `.env` file to version control
+
+Developed with :green_heart: by [Derek R. Greene](https://derekrgreene.com)
