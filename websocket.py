@@ -12,8 +12,8 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 host = os.environ.get("DB_HOST")
-user = os.environ.get("DB_USER")
-passwd = os.environ.get("DB_PASSWD")
+user = os.environ.get("DBUSER")
+passwd = os.environ.get("DBPW")
 db = os.environ.get("DB_NAME")
 
 def clean_domain(domain):
