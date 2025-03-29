@@ -22,9 +22,10 @@ DBPW=<database_password>
 DB=cs340
 DB_HOST=db2
 DB_NAME=domain_data
+OUTPUT_DIR=/tmp/
 ```
 
-### Copy .env to EngDB Project
+### Copy .env to flask_proj
 ```bash
 cp .env flask_proj/.env
 ```
