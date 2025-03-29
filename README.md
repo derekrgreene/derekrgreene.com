@@ -5,10 +5,11 @@
 # Deploy with Docker
 
 
-### Pull Docker Image
-```bash
-docker pull derekgreene11/derekrgreene.com
-```
+### Clone the Repository
+ ```bash
+ git clone https://github.com/derekgreene11/derekrgreene.com.git
+ cd derekrgreene.com
+ ```
 
 ### Create Environment File
 Create a `.env` file in the project root directory with the following variables:
@@ -30,14 +31,14 @@ OUTPUT_DIR=/tmp/
 cp .env flask_proj/.env
 ```
 
-### Run the container
-```bash
-docker run derekgreene11/derekrgreene.com:latest
-```
+ ###  Build and Initialize Docker Containers
+ ```bash
+ docker-compose up --build
+ ```
 
 ### Database User Setup
 
-#### Find MySQL Container Name
+### Find MySQL Container Name
 ```bash
 sudo docker ps
 ```
@@ -56,7 +57,6 @@ GRANT ALL PRIVILEGES ON *.* TO '<username>'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT;
 ```
-
 
 ## Troubleshooting
 - Ensure all environment variables are correctly set
