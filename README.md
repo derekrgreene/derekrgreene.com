@@ -31,7 +31,7 @@ cp .env flask_proj/.env
 
 ### Run the container
 ```bash
-docker run --name container-name derekgreene11/derekrgreene.com:latest
+docker run derekgreene11/derekrgreene.com:latest
 ```
 
 ### Database User Setup
