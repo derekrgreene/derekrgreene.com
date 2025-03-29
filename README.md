@@ -65,4 +65,4 @@ EXIT;
 ## ⚠️ Security Notes
 - Never commit the `.env` file to version control
 
-<h3 align="center">Developed with :green_heart: by [Derek R. Greene](https://derekrgreene.com)</h3>
+<h3 align="center">Developed with &#128154; by <a href="https://derekrgreene.com">Derek R. Greene</a></h3>
