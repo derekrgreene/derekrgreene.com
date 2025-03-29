@@ -1,7 +1,5 @@
 <h1 align="center">Hi 👋, I'm Derek R. Greene</h1>
-<p align="center"><a href="https://www.buymeacoffee.com/derekgreene"> <img align="center" src="https://cdn.buymeacoffee.com/buttons/v2/ariel-green.png" height="50" width="210" alt="derekgreene" /></a></p>
-
-
+<p align="center"><a href="https://www.buymeacoffee.com/derekgreene"> <img align="center" src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" height="50" width="210" alt="derekgreene" /></a></p>
 
 ## 🚀 Deploy with Docker
 
@@ -10,7 +8,7 @@
  git clone https://github.com/derekgreene11/derekrgreene.com.git
  cd derekrgreene.com
  ```
-
+ 
 ## ✨ Environment Variables
 Create a `.env` file in the project root directory with the following variables:
 ```
