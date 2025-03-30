@@ -107,7 +107,7 @@ class TerminalUI extends HTMLElement {
         this.printToConsole(data.output);
 
         if (command.startsWith("cd ") && data.new_dir) {
-          this.currentDir = data.new_dir.replace("/home/derek", "~");
+          this.currentDir = data.new_dir.replace("/var/www", "~");
           this.promptSpan.textContent = `admin@localhost:${this.currentDir}$`;
         }
       }

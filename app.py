@@ -1,8 +1,6 @@
-from flask import Flask, render_template, Response, request, jsonify, session
-from flask import Flask, render_template, Response, request, jsonify, send_file
+from flask import Flask, render_template, Response, request, jsonify, session, send_file
 from flask_caching import Cache
-import datetime, hmac, hashlib, subprocess, os, time, threading, shlex
-import datetime, hmac, hashlib, subprocess, os, time, threading, pymysql
+import datetime, hmac, hashlib, subprocess, os, time, threading, shlex, pymysql
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,7 +10,7 @@ app = Flask(__name__)
 GITHUB_SECRET = os.getenv('GITHUB_SECRET').encode()
 SUDO_PASSWORD = os.getenv('SUDO_PASSWORD')
 app.secret_key = os.urandom(24)
-SAFE_DIR = "/home/derek/Desktop/web/"
+SAFE_DIR = "/var/www/derekrgreene.com/"
 host = os.environ.get("DB_HOST")
 user = os.environ.get("DBUSER")
 passwd = os.environ.get("DBPW")
@@ -95,7 +93,6 @@ def pgp():
     return Response(keydata, mimetype="text/plain")
 
 
-
 @app.route('/robots.txt')
 def robots():
     return Response("User-agent: *\nAllow: /\nSitemap: https://derekrgreene.com/sitemap.xml",mimetype="text/plain")
@@ -135,12 +132,10 @@ def sitemap():
     return Response(xml_content, mimetype='application/xml')
 
 
-
 def verify_signature(payload, signature):
     expected_mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256).hexdigest()
     expected_signature = f"sha256={expected_mac}"
     return hmac.compare_digest(expected_signature, signature)
-
 
 
 @app.route("/deploy", methods=["POST"])
@@ -152,7 +147,6 @@ def deploy():
     subprocess.run("source venv/bin/activate && pip install -r requirements.txt && git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     threading.Thread(target=delayed_service_restart, daemon=True).start()
     return "Deployment successful!", 200
-
 
 
 def delayed_service_restart():
