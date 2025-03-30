@@ -105,8 +105,6 @@ class TerminalUI extends HTMLElement {
         });
         const data = await response.json();
         this.printToConsole(data.output);
-
-        }
       }
     });
   }
