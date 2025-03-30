@@ -1,8 +1,7 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, jsonify, session
 from flask_caching import Cache
-import datetime, hmac, hashlib, subprocess, os, time, threading
+import datetime, hmac, hashlib, subprocess, os, time, threading, shlex
 from dotenv import load_dotenv
-
 
 load_dotenv()
 app = Flask(__name__)
@@ -10,6 +9,8 @@ app = Flask(__name__)
 
 GITHUB_SECRET = os.getenv('GITHUB_SECRET').encode()
 SUDO_PASSWORD = os.getenv('SUDO_PASSWORD')
+app.secret_key = os.urandom(24)
+SAFE_DIR = "/home/derek/Desktop/web/"
 app.config['CACHE_TYPE'] = 'simple'
 cache = Cache(app)
 
@@ -79,11 +80,13 @@ def snakeGame():
 def virtualPantry():
     return render_template('virtualpantry.html')
 
+
 @app.route("/pgp")
 def pgp():
     with open("pgp.asc", "r") as keyfile:
         keydata = keyfile.read()
     return Response(keydata, mimetype="text/plain")
+
 
 @app.route('/robots.txt')
 def robots():
@@ -123,10 +126,12 @@ def sitemap():
     
     return Response(xml_content, mimetype='application/xml')
 
+
 def verify_signature(payload, signature):
     expected_mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256).hexdigest()
     expected_signature = f"sha256={expected_mac}"
     return hmac.compare_digest(expected_signature, signature)
+
 
 @app.route("/deploy", methods=["POST"])
 def deploy():
@@ -138,9 +143,64 @@ def deploy():
     threading.Thread(target=delayed_service_restart, daemon=True).start()
     return "Deployment successful!", 200
 
+
 def delayed_service_restart():
     time.sleep(30)
     subprocess.run(f"echo {SUDO_PASSWORD} | sudo -S systemctl restart derekrgreene.com.service", shell=True, check=True)
+
+
+def is_within_safe_dir(path):
+    """Check if the given path is within the safe directory."""
+    absolute_path = os.path.abspath(path)
+    return os.path.commonpath([absolute_path, os.path.abspath(SAFE_DIR)]) == os.path.abspath(SAFE_DIR)
+
+
+@app.route('/run_command', methods=['POST'])
+def run_command():
+    data = request.get_json()
+    command = data.get('command')
+
+    if 'current_dir' not in session:
+        session['current_dir'] = SAFE_DIR
+
+    current_dir = session['current_dir']
+    os.chdir(current_dir)
+
+    try:
+        if command.startswith("cd "):
+            target_dir = command.split(" ", 1)[1]
+            new_dir = os.path.join(current_dir, target_dir)
+            if is_within_safe_dir(new_dir) and os.path.isdir(new_dir):
+                session['current_dir'] = new_dir
+                os.chdir(new_dir)
+                output = ""
+            else:
+                output = "You are not authorized access to files outside of this web app's directory!"
+        else:
+            parts = shlex.split(command)
+            base_command = parts[0]
+            
+            if base_command in ["ls", "pwd", "date", "echo", "cat"]:
+                if base_command == "cat" and len(parts) > 1:
+                    file_path = parts[1]
+                    if not os.path.isabs(file_path):
+                        file_path = os.path.join(current_dir, file_path)
+                    
+                    if not is_within_safe_dir(file_path):
+                        output = "You are not authorized to access files outside of this web app's directory!"
+                    else:
+                        result = subprocess.run(command, shell=True, capture_output=True, text=True, cwd=current_dir)
+                        output = result.stdout if result.returncode == 0 else result.stderr
+                else:
+                    result = subprocess.run(command, shell=True, capture_output=True, text=True, cwd=current_dir)
+                    output = result.stdout if result.returncode == 0 else result.stderr
+            else:
+                output = "Command not recognized or not allowed."
+
+    except Exception as e:
+        output = f"Error: {str(e)}"
+
+    return jsonify({'output': output, 'new_dir': session['current_dir']})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8050, debug=False) 
