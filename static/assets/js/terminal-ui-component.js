@@ -115,9 +115,11 @@ class TerminalUI extends HTMLElement {
         break;
       case 'dark':
         this.setWebsiteTheme('dark');
+        this.printToConsole("Website theme changed to dark mode.");
         break;
       case 'light':
         this.setWebsiteTheme('light');
+        this.printToConsole("Website theme changed to light mode.");
         break;
       case 'date':
         this.printToConsole(`Current date: ${new Date().toLocaleDateString()}`);
@@ -159,11 +161,9 @@ class TerminalUI extends HTMLElement {
   setWebsiteTheme(theme) {
     if (theme === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
-      this.printToConsole("Website theme changed to dark mode.");
       localStorage.setItem('theme', 'dark');  // Store the selected theme
     } else if (theme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
-      this.printToConsole("Website theme changed to light mode.");
       localStorage.setItem('theme', 'light');  // Store the selected theme
     } else {
       this.printToConsole("Invalid theme. Use 'dark' or 'light'.");
