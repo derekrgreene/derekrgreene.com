@@ -103,6 +103,7 @@
   border: 1px solid #333;
   border-radius: 6px;
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+  margin-left: 35px;
 }
 
 [data-theme="dark"] terminal-ui {
