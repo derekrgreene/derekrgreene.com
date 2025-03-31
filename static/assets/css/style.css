@@ -1,6 +1,126 @@
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+[data-theme="dark"] {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --card-bg: #1e1e1e;
+  --section-bg: #1a1a1a;
+  --border-color: #333333;
+  --hover-color: #2eafec;
+  --secondary-text: #cccccc;
+}
+
+[data-theme="dark"] body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .section-bg {
+  background: var(--section-bg);
+}
+
+[data-theme="dark"] .section-title h2 {
+  color: #61dafb; 
+}
+
+[data-theme="dark"] .contact .info,
+[data-theme="dark"] .contact .php-email-form {
+  background: var(--card-bg);
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .contact .info h4 {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .contact .info p {
+  color: var(--secondary-text);
+}
+
+[data-theme="dark"] .contact .info i {
+  background: #1a3a4c; 
+}
+
+[data-theme="dark"] .resume .resume-item {
+  border-left-color: #1f5297;
+}
+
+[data-theme="dark"] .resume .resume-item h4 {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .resume .resume-item h5 {
+  background: #1a3a4c;
+  color: #e4edf9;
+}
+
+[data-theme="dark"] .skills .skill {
+  
+  background: #e4edf9;
+  color: #e4edf9;
+}
+
+
+[data-theme="dark"] .resume .resume-item::before {
+  background: var(--card-bg);
+  border-color: #1f5297;
+}
+
+[data-theme="dark"] .skills .progress-bar-wrap {
+  background: #2a2a2a;
+}
+
+[data-theme="dark"] .facts .count-box span {
+  color: #e4edf9;
+}
+
+[data-theme="dark"] .facts .count-box p {
+  color: var(--secondary-text);
+}
+
+[data-theme="dark"] .portfolio #portfolio-flters {
+  background: var(--card-bg);
+}
+
+[data-theme="dark"] .portfolio #portfolio-flters li {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .testimonials .testimonial-item p {
+  background: var(--card-bg);
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .testimonials .testimonial-item p::after {
+  border-top-color: var(--card-bg);
+}
+
+/* Terminal-specific styling for dark mode */
+[data-theme="dark"] .terminal-container {
+  background-color: #0c0c0c;
+  border: 1px solid #333;
+  border-radius: 6px;
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] terminal-ui {
+  --terminal-background: #0c0c0c;
+  --terminal-text: #e6e6e6;
+  --terminal-prompt: #61dafb;
+  --terminal-cursor: #61dafb;
+}
+
+.terminal-container{
+  box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.20);
+}
+
 body {
   font-family: "Open Sans", sans-serif;
-  color: #272829;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 a {
