@@ -68,6 +68,12 @@ class TerminalUI extends HTMLElement {
 
   connectedCallback() {
     this.printToConsole("Type 'help' to see available commands.");
+    
+    // Check the saved theme on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      this.setWebsiteTheme(savedTheme);
+    }
 
     this.inputField.addEventListener('keydown', async (e) => {
       if (e.key === 'Enter') {
@@ -154,11 +160,13 @@ class TerminalUI extends HTMLElement {
     if (theme === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
       this.printToConsole("Website theme changed to dark mode.");
+      localStorage.setItem('theme', 'dark');  // Store the selected theme
     } else if (theme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
       this.printToConsole("Website theme changed to light mode.");
+      localStorage.setItem('theme', 'light');  // Store the selected theme
     } else {
-      this.printToConsole("Invalid theme. Use 'darkmode' or 'lightmode'.");
+      this.printToConsole("Invalid theme. Use 'dark' or 'light'.");
     }
   }
 
@@ -200,4 +208,5 @@ class TerminalUI extends HTMLElement {
     this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
   }
 }
+
 customElements.define('terminal-ui', TerminalUI);

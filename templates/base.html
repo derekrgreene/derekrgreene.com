@@ -14,7 +14,16 @@
   <meta property="og:url" content="https://derekrgreene.com">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://derekrgreene.com/static/assets/img/profile-img.avif">
-
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light'); // Default theme
+      }
+    });
+  </script>
   <!-- Schema.org markup for Google -->
 <script type="application/ld+json">
 {

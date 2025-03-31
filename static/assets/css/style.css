@@ -63,7 +63,6 @@
   color: #e4edf9;
 }
 
-
 [data-theme="dark"] .resume .resume-item::before {
   background: var(--card-bg);
   border-color: #1f5297;
@@ -111,6 +110,37 @@
   --terminal-text: #e6e6e6;
   --terminal-prompt: #61dafb;
   --terminal-cursor: #61dafb;
+}
+
+[data-theme="dark"] .breadcrumbs {
+  padding: 20px 0;
+  background: #0c0c0c;
+}
+
+
+[data-theme="dark"] .breadcrumbs h2 {
+  font-size: 26px;
+  font-weight: 300;
+}
+
+[data-theme="dark"] .breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+}
+
+[data-theme="dark"] .breadcrumbs ol li+li {
+  padding-left: 10px;
+}
+
+[data-theme="dark"] .breadcrumbs ol li+li::before {
+  display: inline-block;
+  padding-right: 10px;
+  color: #0e2442;
+  content: "/";
 }
 
 .terminal-container{
