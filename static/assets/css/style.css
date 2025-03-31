@@ -1275,3 +1275,63 @@ section {
 [data-name="BMC-Widget"] {
   position: fixed !important;
 }
+
+.arrow-container {
+  position: relative;
+  display: inline-block;
+  text-align: left;
+  
+}
+
+.cool-terminal-message {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #2e2e2e;
+  color: #149ddd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(24, 196, 248, 0.5);
+  width: fit-content;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+  margin-right: 40px;
+}
+
+.arrow {
+  position: absolute;
+  top: 6px;
+  width: 30px;
+  height: 30px;
+  border-top: 3px solid #149ddd;
+  border-right: 3px solid #149ddd;
+  transform: rotate(45deg);
+  right: 30%;
+}
+
+@keyframes arrow-animation {
+  0% {
+    top: 50%;
+    left: 100%;
+    transform: rotate(25deg);
+  }
+  25% {
+    top: 100%; 
+    left: 100%;
+    transform: rotate(25deg); 
+  }
+  75% {
+    top: 100%;
+    left: 95%;
+    transform: rotate(205deg); 
+  }
+  100% {
+    top: 100%;
+    left: 95%; 
+    transform: rotate(205deg); 
+  }
+}
+
+.arrow-container:hover .arrow {
+  animation: arrow-animation 2s ease-in-out 1 forwards;
+}
