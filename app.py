@@ -285,6 +285,5 @@ def import_sql_dump():
     except subprocess.CalledProcessError as e:
         return jsonify({'error': 'Failed to import SQL dump'}), 500
 
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8050, debug=True) 
+    app.run(host='0.0.0.0', port=8050, debug=False) 
