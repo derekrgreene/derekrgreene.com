@@ -286,4 +286,4 @@ def import_sql_dump():
         return jsonify({'error': 'Failed to import SQL dump'}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8050, debug=False) 
+    app.run(host='0.0.0.0', port=8050, debug=True) 
