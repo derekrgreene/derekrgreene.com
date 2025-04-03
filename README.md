@@ -1,3 +1,7 @@
+![Static Badge](https://img.shields.io/badge/Python-3.13.2-blue?style=flat-square&labelColor=yellow&color=grey)
+![Static Badge](https://img.shields.io/badge/Flask-5.1.0-lime?style=flat-square&labelColor=lime&color=grey)
+![Static Badge](https://img.shields.io/badge/Docker-2.34.0-blue?style=flat-square&labelColor=%232496ED&color=grey)
+
 <h1 align="center">Hi 👋, I'm Derek R. Greene</h1>
 <p align="center"><a href="https://www.buymeacoffee.com/derekgreene"> <img align="center" src="https://cdn.buymeacoffee.com/buttons/v2/arial-green.png" height="50" width="210" alt="derekgreene" /></a></p>
 
