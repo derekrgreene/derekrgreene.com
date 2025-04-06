@@ -1,3 +1,6 @@
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fderekrgreene.com&style=flat&logo=Flask&label=Wesbite%20Status&cacheSeconds=!%5BWebsite%5D(https%3A%2F%2Fimg.shields.io%2Fwebsite%3Furl%3Dhttps%253A%252F%252Fadmin.centralpointstake.org%26style%3Dflat%26logo%3Dnodedotjs%26label%3DCMS%2520Status))
+
+
 <h1 align="center">Hi 👋, I'm Derek R. Greene</h1>
 <p align="center"><a href="https://www.buymeacoffee.com/derekgreene"> <img align="center" src="https://cdn.buymeacoffee.com/buttons/v2/arial-green.png" height="50" width="210" alt="derekgreene" /></a></p>
 
