@@ -7,7 +7,7 @@ class TerminalUI extends HTMLElement {
       <style>
         .terminal {
           width: 100%; 
-          height: 100%;
+          height: 40hv;
           border: 2px solid white;
           padding: 10px;
           display: flex;
@@ -32,6 +32,7 @@ class TerminalUI extends HTMLElement {
           padding: 5px;
           color: white;
           font-family: 'Comic Sans', monospace;
+          min-height: 50vh;
         }
         .input-line {
           display: flex;
