@@ -1,0 +1,23 @@
+language: python
+python:
+  - "3.10"  # specify the Python version you're using
+
+# Install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install pytest
+
+# Run tests
+script:
+  - pytest
+
+# Trigger the deploy webhook if tests pass
+after_success:
+  - |
+    if [ "$TRAVIS_TEST_RESULT" == "0" ]; then
+      # If tests pass, trigger the webhook
+      curl -X POST https://derekrgreene.com/deploy \
+        -H "Content-Type: application/json" \
+        -H "X-Hub-Signature-256: $WEBHOOK_SECRET" \
+        -d '{"status": "success"}'
+    fi
