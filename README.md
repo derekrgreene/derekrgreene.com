@@ -1,4 +1,4 @@
-![Website](https://img.shields.io/website?url=https%3A%2F%2Fderekrgreene.com&style=flat&logo=Flask&label=Wesbite%20Status&cacheSeconds=!%5BWebsite%5D(https%3A%2F%2Fimg.shields.io%2Fwebsite%3Furl%3Dhttps%253A%252F%252Fadmin.centralpointstake.org%26style%3Dflat%26logo%3Dnodedotjs%26label%3DCMS%2520Status))
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fderekrgreene.com&style=flat-square&logo=Flask&label=Wesbite%20Status&cacheSeconds=!%5BWebsite%5D(https%3A%2F%2Fimg.shields.io%2Fwebsite%3Furl%3Dhttps%253A%252F%252Fadmin.centralpointstake.org%26style%3Dflat%26logo%3Dnodedotjs%26label%3DCMS%2520Status))
 ![Static Badge](https://img.shields.io/badge/Python-3.13.2-blue?style=flat-square&labelColor=yellow&color=grey)
 ![Static Badge](https://img.shields.io/badge/Flask-5.1.0-lime?style=flat-square&labelColor=lime&color=grey)
 ![Static Badge](https://img.shields.io/badge/Docker-2.34.0-blue?style=flat-square&labelColor=%232496ED&color=grey)
