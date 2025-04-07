@@ -130,21 +130,33 @@ def sitemap():
     return Response(xml_content, mimetype='application/xml')
 
 
+@app.route("/deploy", methods=["POST"])
+def deploy():
+    # Get the payload from GitHub webhook
+    data = request.json
+    
+    # Check the status of the workflow run
+    workflow_status = data.get('workflow_run', {}).get('status')
+    
+    # Proceed only if the workflow run completed successfully
+    if workflow_status == 'success':
+        signature = request.headers.get("X-Hub-Signature-256")
+        
+        if not signature or not verify_signature(request.data, signature):
+            return "Invalid signature", 403
+        
+        subprocess.run("source venv/bin/activate && pip install -r requirements.txt && git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        threading.Thread(target=delayed_service_restart, daemon=True).start()
+        
+        return "Deployment successful!", 200
+    else:
+        return "Workflow failed. Deployment not triggered.", 200
+
+# Define your signature verification function
 def verify_signature(payload, signature):
     expected_mac = hmac.new(BGITHUB_SECRET, payload, hashlib.sha256).hexdigest()
     expected_signature = f"sha256={expected_mac}"
     return hmac.compare_digest(expected_signature, signature)
-
-
-@app.route("/deploy", methods=["POST"])
-def deploy():
-    signature = request.headers.get("X-Hub-Signature-256")
-    if not signature or not verify_signature(request.data, signature):
-        return "Invalid signature", 403
-    
-    subprocess.run("source venv/bin/activate && pip install -r requirements.txt && git pull", shell=True, check=True, cwd="/var/www/derekrgreene.com", executable="/bin/bash", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    threading.Thread(target=delayed_service_restart, daemon=True).start()
-    return "Deployment successful!", 200
 
 
 def delayed_service_restart():
@@ -286,4 +298,4 @@ def import_sql_dump():
         return jsonify({'error': 'Failed to import SQL dump'}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8050, debug=True) 
+    app.run(host='0.0.0.0', port=8050, debug=False) 
