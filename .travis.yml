@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.10"  # specify the Python version you're using
+  - "3.12"  # specify the Python version you're using
 
 # Install dependencies
 install:
@@ -9,7 +9,7 @@ install:
 
 # Run tests
 script:
-  - pytest
+  - pytest test_app.py
 
 # Trigger the deploy webhook if tests pass
 after_success:
@@ -21,3 +21,10 @@ after_success:
         -H "X-Hub-Signature-256: $WEBHOOK_SECRET" \
         -d '{"status": "success"}'
     fi
+    
+notifications:
+  email:
+    recipients:
+      - derek@derekrgreene.com
+    on_success: always
+    on_failure: always
