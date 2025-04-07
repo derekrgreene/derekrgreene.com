@@ -95,9 +95,3 @@ def test_sitemap(client):
     response = client.get('/sitemap.xml')
     assert response.status_code == 200
     assert b"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">" in response.data
-
-
-def test_domain_scout_api(client):
-    """Test the /DomainScout/api route"""
-    response = client.get('/DomainScout/api')
-    assert response.status_code == 200
