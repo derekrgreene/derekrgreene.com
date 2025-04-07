@@ -150,7 +150,7 @@ def deploy():
         
         return "Deployment successful!", 200
     else:
-        return "Workflow failed. Deployment not triggered.", 200
+        return workflow_status, 200
 
 # Define your signature verification function
 def verify_signature(payload, signature):
