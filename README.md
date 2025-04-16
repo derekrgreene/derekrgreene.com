@@ -17,7 +17,7 @@
 
 ## ✨ Environment Variables
 Create a `.env` file in the project root directory with the following variables:
-```
+```ini
 DOCKER_ENV=1
 GITHUB_SECRET=<your_github_webhook_secret>
 SUDO_PASSWORD=<your_sudo_password>
