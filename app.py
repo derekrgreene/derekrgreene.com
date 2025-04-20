@@ -7,7 +7,7 @@ load_dotenv()
 app = Flask(__name__)
 
 
-BGITHUB_SECRET = os.getenv('BGITHUB_SECRET').encode()
+GITHUB_SECRET = os.getenv('GITHUB_SECRET').encode()
 SUDO_PASSWORD = os.getenv('SUDO_PASSWORD')
 host = os.environ.get("DB_HOST")
 user = os.environ.get("DBUSER")
@@ -131,7 +131,7 @@ def sitemap():
 
 
 def verify_signature(payload, signature):
-    expected_mac = hmac.new(BGITHUB_SECRET, payload, hashlib.sha256).hexdigest()
+    expected_mac = hmac.new(GITHUB_SECRET, payload, hashlib.sha256).hexdigest()
     expected_signature = f"sha256={expected_mac}"
     return hmac.compare_digest(expected_signature, signature)
 
