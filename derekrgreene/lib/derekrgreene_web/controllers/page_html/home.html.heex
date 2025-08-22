@@ -1,0 +1,442 @@
+<div class="min-h-screen bg-gray-900 font-mono text-gray-100" id="theme-container">
+  <!-- Theme Toggle -->
+  <div class="absolute top-4 left-4">
+    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-800 border border-gray-600 hover:bg-gray-700 transition-colors">
+      <svg id="sun-icon" class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+      </svg>
+      <svg id="moon-icon" class="w-6 h-6 text-blue-400 hidden" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Header/Navigation Area -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-4 gap-6 mb-12">
+      <div class="text-center">
+        <div class="text-gray-400 text-sm">//github</div>
+        <a href="https://github.com/derekrgreene" target="_blank" rel="noopener noreferrer" class="text-lg font-semibold hover:text-blue-400 transition-colors">
+          <svg class="inline w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          derekrgreene
+        </a>
+      </div>
+      <div class="text-center">
+        <div class="text-gray-400 text-sm">//resume</div>
+        <a href="/Resume2.0.pdf" target="_blank" rel="noopener noreferrer" class="text-lg font-semibold hover:text-blue-400 transition-colors">
+          📄 Resume
+        </a>
+      </div>
+      <div class="text-center">
+        <div class="text-gray-400 text-sm">//contact</div>
+        <a href="mailto:derek@derekrgreene.com" class="text-lg font-semibold hover:text-blue-400 transition-colors">
+          📧 @derekrgreene.com
+        </a>
+      </div>
+      <div class="text-center">
+        <div class="text-gray-400 text-sm">//pgp</div>
+        <div class="text-sm font-mono text-blue-400 select-all cursor-pointer" title="Click to copy">
+          F70A03F3313A34CF805B266CF<br>17B047F651206B3
+        </div>
+      </div>
+    </div>
+
+    <!-- Introduction Section -->
+    <div class="flex items-start space-x-8 mb-12">
+      <div class="flex-shrink-0">
+        <img src="/images/profile-img.avif" alt="Derek Greene" class="w-32 h-32 rounded-full object-cover">
+      </div>
+      <div class="flex-1">
+        <h1 class="text-4xl font-bold mb-2">&lt;Derek R. Greene&gt;</h1>
+        <div class="text-gray-400 text-lg">//Software Engineer & Security Researcher</div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="border-t border-gray-700 mb-8"></div>
+
+    <!-- About Section -->
+    <div class="mb-8">
+      <h2 class="text-gray-400 text-lg mb-4">//about</h2>
+      <p class="text-lg leading-relaxed">
+        hi, i'm derek -- cs student and research fellow at Oregon State University; passionate about network security and functional programming 
+      </p>
+      <ul class="text-lg leading-relaxed space-y-2 mt-4">
+        <li class="flex items-center">
+          <span class="text-gray-400 mr-2">📚</span>
+          <span>currently learning Elixir and Phoenix</span>
+        </li>
+        <li class="flex items-center">
+          <span class="text-gray-400 mr-2">🐚</span>
+          <span>Zsh > Bash, obviously</span>
+        </li>
+        <li class="flex items-center">
+          <span class="text-gray-400 mr-2">📝</span>
+          <span>Living in Neovim</span>
+        </li>
+        <li class="flex items-center">
+          <span class="text-gray-400 mr-2">🖥️</span>
+          <span>Tiling everything with Hyprland</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Separator -->
+    <div class="border-t border-gray-700 mb-8"></div>
+
+    <!-- Languages Section -->
+    <div class="mb-8">
+      <h2 class="text-gray-400 text-lg mb-4">//languages</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+          <div class="font-semibold">Elixir</div>
+        </div>
+        <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+          <div class="font-semibold">Python</div>
+        </div>
+        <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+          <div class="font-semibold">C/C++</div>
+        </div>
+        <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+          <div class="font-semibold">x86 MASM</div>
+        </div>
+        <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+          <div class="font-semibold">SQL</div>
+        </div>
+        <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+          <div class="font-semibold">HTML/CSS</div>
+        </div>
+        <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+          <div class="font-semibold">Go</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="border-t border-gray-700 mb-8"></div>
+
+    <!-- Projects Section -->
+    <div class="mb-8">
+      <h2 class="text-gray-400 text-lg mb-4">//projects</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 hover:border-gray-500 transition-all duration-300 ease-in-out transform hover:-translate-y-1" data-project="domain-scout">
+          <div class="font-semibold text-lg">Domain Scout</div>
+          <div class="text-gray-400 text-sm mb-2">//Python, SQL</div>
+          <p class="text-sm">identifies disposable email addresses used as contact methods in WHOIS records for Domain Control Validation</p>
+          
+          <!-- Expanded content (hidden by default) -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">What it does:</h4>
+                <p class="text-sm text-gray-300">Domain Scout is the primary GUI to view vulnerable domains found by Domain Scout API. Domain Scout API identifies disposable email addresses used as contact methods in WHOIS records. Domains are collected using Certstream Server Go which streams Certificate Transparency logs continuously to a websocket connection. Domains are extracted from the data stream and WHOIS queries are subsequently made to identify contact email addresses which are compared against a list of 15k+ known disposable email domains. If a disposable email address is found, the domain and associated data is added to the database and displayed in Domain Scout.</p>
+              </div>
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">Key Features:</h4>
+                <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                  <li>TLS certificate transparency log parsing and analysis</li>
+                  <li>Disposable email detection algorithms</li>
+                  <li>SQL database for storing results</li>
+                  <li>Batch processing capabilities</li>
+                </ul>
+              </div>
+              <div class="flex space-x-3">
+                <a href="https://github.com/derekrgreene/Domain-Scout" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🔗 GitHub</a>
+                <a href="/Domain_Scout_README.md" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">📖 README</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 transition-colors" data-project="small-shell">
+          <div class="font-semibold text-lg">Small Shell</div>
+          <div class="text-gray-400 text-sm mb-2">//C</div>
+          <p class="text-sm">simple shell that can run commands in the foreground and background, with input and output redirection</p>
+          
+          <!-- Expanded content -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">What it does:</h4>
+                <p class="text-sm text-gray-300">This program implements a simple shell that can run commands in the foreground and background, with input and output redirection. It also handles built-in commands such as exit, cd, and status. Signals such as SIGINT, SIGCHLD, and SIGTSTP are handled as well. Comments can be added to the input by starting the line with '#'. Blank lines are ignored. The '&' character can be used to run a command in the background. Program will terminate upon 'exit' command.</p>
+              </div>
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">Key Features:</h4>
+                <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                  <li>Command execution in foreground/background</li>
+                  <li>Input/output redirection (&gt;, &lt;, &gt;&gt;)</li>
+                  <li>Process management and job control</li>
+                  <li>Built-in commands (cd, exit, jobs)</li>
+                </ul>
+              </div>
+              <div class="flex space-x-3">
+                <a href="https://github.com/derekrgreene/derekrgreene.com/blob/master/static/sources/src/smallsh.c" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🔗 GitHub</a>
+                <a href="/Small_shell_README.md" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">📖 README</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 hover:text-white transition-colors" data-project="low-level-io">
+          <div class="font-semibold text-lg">Low Level IO</div>
+          <div class="text-gray-400 text-sm mb-2">//x86 MASM</div>
+          <p class="text-sm">low level IO interface designed in assembly</p>
+          
+          <!-- Expanded content -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">What it does:</h4>
+                <p class="text-sm text-gray-300">Program displays title and programmers name, followed by an introduction explaining the program. Program then prompts user to enter 10 signed decimal integers in range of 32 bits/number. Input is read in as a string and converted from ASCII to decimal. Each input is then checked for if it is valid. If it is not valid, the program will display an error message and prompt the user to re-enter the number. If the number is valid, it is stored in an array. The program then displays the numbers entered, followed by the sum and average for the values inputed. Results are converted to ASCII and then displayed to the user along with a list of the numbers entered. The program then displays a goodbye message and exits.</p>
+              </div>
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">Key Features:</h4>
+                <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                  <li>User input validation and error handling</li>
+                  <li>ASCII to decimal conversion</li>
+                  <li>Array storage and management</li>
+                  <li>Mathematical calculations (sum, average)</li>
+                  <li>Decimal to ASCII conversion for output</li>
+                  <li>Input range validation (32-bit signed integers)</li>
+                </ul>
+              </div>
+              <div class="flex space-x-3">
+                <a href="https://github.com/derekrgreene/derekrgreene.com/blob/master/static/sources/src/low-level-io.asm" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🔗 GitHub</a>
+                <a href="https://www.asmirvine.com/workbook/workbook.htm" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">📖 Assembly Guide</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 hover:text-white transition-colors" data-project="engineering-db">
+          <div class="font-semibold text-lg">Engineering Services DB</div>
+          <div class="text-gray-400 text-sm mb-2">//Python, Flask, SQL, HTML/CSS, JS</div>
+          <p class="text-sm">central hub for managing designs, requirements, projects, and users</p>
+          
+          <!-- Expanded content -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">What it does:</h4>
+                <p class="text-sm text-gray-300">A comprehensive web application for managing engineering projects, including design documents, requirements tracking, user management, and project workflows.</p>
+              </div>
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">Key Features:</h4>
+                <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                  <li>User authentication and role management</li>
+                  <li>Document version control</li>
+                  <li>Project tracking and milestones</li>
+                  <li>Requirements management system</li>
+                  <li>RESTful API endpoints</li>
+                </ul>
+              </div>
+              <div class="flex space-x-3">
+                <a href="https://github.com/derekrgreene/Engineering-ServicesDB" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🔗 GitHub</a>
+                <a href="https://engdb.derekrgreene.com/" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🌐 Live Site</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 hover:text-white transition-colors" data-project="centralpoint">
+          <div class="font-semibold text-lg">CentralPointStake.org</div>
+          <div class="text-gray-400 text-sm mb-2">//Python, Flask, HTML/CSS, Node.js</div>
+          <p class="text-sm">website for the Central Point Oregon LDS stake</p>
+          
+          <!-- Expanded content -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">What it does:</h4>
+                <p class="text-sm text-gray-300">An church website serving the LDS stake in Central Point, Oregon, providing event information, resources, and updates.</p>
+              </div>
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">Key Features:</h4>
+                <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                  <li>Events & management</li>
+                  <li>Church announcements</li>
+                  <li>Resource sharing</li>
+                  <li>Responsive design for all devices</li>
+                </ul>
+              </div>
+              <div class="flex space-x-3">
+                <a href="https://centralpointstake.org" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🌐 Live Site</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 hover:text-white transition-colors" data-project="otp">
+          <div class="font-semibold text-lg">TOTP Implementation</div>
+          <div class="text-gray-400 text-sm mb-2">//Elixir</div>
+          <p class="text-sm">30 second TOTP implementation according to RFC 6328</p>
+          
+          <!-- Expanded content -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">What it does:</h4>
+                <p class="text-sm text-gray-300">A time-based one-time password (TOTP) implementation following RFC 6328 standards, providing secure two-factor authentication.</p>
+              </div>
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">Key Features:</h4>
+                <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                  <li>RFC 6328 compliant TOTP</li>
+                  <li>30-second token rotation</li>
+                  <li>Secure random key generation</li>
+                  <li>QR code generation</li>
+                  <li>Elixir/Phoenix integration</li>
+                </ul>
+              </div>
+              <div class="flex space-x-3">
+                <a href="https://github.com/derekrgreene/cs370/tree/main/assig3/otp_app" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🔗 GitHub</a>
+                <a href="/OTP_README.md" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">📖 README</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 hover:text-white transition-colors" data-project="snake">
+          <div class="font-semibold text-lg">Classic Snake</div>
+          <div class="text-gray-400 text-sm mb-2">//Python</div>
+          <p class="text-sm">classic game of snake in python</p>
+          
+          <!-- Expanded content -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">What it does:</h4>
+                <p class="text-sm text-gray-300">Using the python module Turtle, I created the classic game of snake. The program initializes a 600px x 600px window in which the current score and high score are displayed, along with the "snake" and "food" objects. The up, down, left, and right arrow keys are used to control the movement of the snake head. Upon collision with food objects (in this case turtles), a new segment is added to the snake corresponding to the color of the food object.</p>
+              </div>
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">Key Features:</h4>
+                <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                  <li>Arrow key controls (up, down, left, right)</li>
+                  <li>Score and high score tracking</li>
+                  <li>Snake growth mechanics</li>
+                  <li>Color-coded food objects</li>
+                  <li>Python Turtle graphics</li>
+                </ul>
+              </div>
+              
+              <!-- Snake Game Demo -->
+              <div class="mt-4">
+                <h4 class="font-semibold text-emerald-400 mb-2">Play the Game:</h4>
+                <iframe src="https://trinket.io/embed/pygame/201afdc836b1?outputOnly=true" width="100%" height="356" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+              </div>
+              
+              <div class="flex space-x-3">
+                <a href="https://github.com/derekrgreene/derekrgreene.com/blob/master/static/sources/src/Snake.py" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🔗 GitHub</a>
+                <a href="https://trinket.io/embed/pygame/201afdc836b1?outputOnly=true" target="_blank" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🎮 Play Full Screen</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 transition-colors" data-project="tarpaulin">
+          <div class="font-semibold text-lg">Tarpaulin API</div>
+          <div class="text-gray-400 text-sm mb-2">//Python, Flask, Swagger UI, Google App Engine, Google Datastore, Cloud Storage</div>
+          <p class="text-sm">a lightweight course management tool hosted in the cloud (GCP)</p>
+          
+          <!-- Expanded content -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">What it does:</h4>
+                <p class="text-sm text-gray-300">A cloud-based course management system built on Google Cloud Platform, providing educators with tools to organize and deliver course content.</p>
+              </div>
+              <div>
+                <h4 class="font-semibold text-emerald-400 mb-2">Key Features:</h4>
+                <ul class="text-sm text-gray-300 list-disc list-inside space-y-1">
+                  <li>Course content management</li>
+                  <li>Student enrollment tracking</li>
+                  <li>Assignment submission system</li>
+                  <li>Google Cloud integration</li>
+                  <li>Scalable architecture</li>
+                </ul>
+              </div>
+              <div class="flex space-x-3">
+                <a href="https://github.com/derekrgreene/tarpaulin" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🔗 GitHub</a>
+                <a href="https://final-462001.wl.r.appspot.com/swagger/" class="text-blue-400 hover:text-blue-300 text-sm transition-colors">🌐 Live API</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="border-t border-gray-700 mb-8"></div>
+
+    <!-- Research Section -->
+    <div class="mb-8">
+      <h2 class="text-gray-400 text-lg mb-4">//research</h2>
+      <div class="space-y-4">
+        <div class="border border-gray-600 px-4 py-3 rounded bg-gray-800">
+          <div class="font-semibold text-lg">ASTRO Cybersecurity Lab - OSU</div>
+          <div class="text-gray-400 text-sm mb-2">//applied network security, DCV, web PKI - research advisor: <a href="https://zanema.com" class="font-semibold hover:text-blue-400 transition-colors">Dr. Zane Ma</a></div>
+          <p class="text-sm">Developed novel approach to measure domain control validation frequency across certificate authorities <br>Authored a <a href="/Thesis.pdf" target="_blank" rel="noopener noreferrer" class="font-semibold hover:text-blue-400 transition-colors">thesis</a> providing a comprehensive enumeration of the DCV attack surface, dependency concentrations, and impacts of compromise <br>Co-authored a paper analyzing the security and attack surface of DCV methods used to obtain TLS certificates <br>Other miscelaneous applied internet security research and measurements</p>
+        </div>
+
+        <div class="project-card border border-gray-600 px-4 py-3 rounded bg-gray-800 cursor-pointer hover:bg-gray-700 transition-colors" data-project="dcv-dependency-map">
+          <div class="font-semibold text-lg">Domain Control Validation Dependency Map</div>
+          <div class="text-gray-400 text-sm mb-2">//DCV, web PKI</div>
+          
+          <!-- Expanded content -->
+          <div class="project-details hidden mt-4 pt-4">
+            <div class="space-y-3">
+              <div>
+                <p class="text-sm text-gray-300">Interactive visualization mapping the dependencies and relationships in Domain Control Validation (DCV) processes, showing how different components interact across the web PKI ecosystem.</p>
+              </div>
+              
+              <!-- DCV Dependency Map Visualization -->
+              <div class="mt-4 -ml-30">
+                <div id="dcv-container" class="w-full overflow-x-auto">
+                  <!-- D3.js visualization will be inserted here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="border-t border-gray-700 mb-8"></div>
+
+    <!-- Work Experience Section -->
+    <div class="mb-8">
+      <h2 class="text-gray-400 text-lg mb-4">//work experience</h2>
+      <div class="space-y-4">
+        <div class="flex items-start space-x-4">
+          <div class="text-sm text-gray-400 w-32 flex-shrink-0">aug 2025 - present</div>
+          <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+            <div class="font-semibold">Undergraduate Research Assistant</div>
+            <div class="text-gray-400 text-sm">//Oregon State University</div>
+          </div>
+        </div>
+        <div class="flex items-start space-x-4">
+          <div class="text-sm text-gray-400 w-32 flex-shrink-0">aug 2016 - present</div>
+          <div class="border border-gray-600 px-4 py-2 rounded bg-gray-800">
+            <div class="font-semibold">Technical Systems Trainer</div>
+            <div class="text-gray-400 text-sm">//ARUP Laboratories</div>
+          </div>
+        </div>
+      </div>
+    </div>
+        
+    <!-- Footer -->
+    <div class="border-t border-gray-700 mt-12 pt-8 pb-8">
+      <div class="text-center text-gray-400">
+        <p class="text-sm">
+          Made with <span class="text-emerald-400">♥</span> by Derek R. Greene
+        </p>
+        <p class="text-xs mt-2 text-gray-500">
+          Built with Elixir & Phoenix
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
