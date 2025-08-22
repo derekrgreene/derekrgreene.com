@@ -1,0 +1,40 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* This file is for your main application CSS */
+
+/* Custom hover effects for project cards */
+.project-card:hover .text-gray-400,
+.project-card:hover .text-gray-600 {
+  color: rgb(16 185 129) !important; /* emerald-500 */
+}
+
+.project-card:hover .text-emerald-400 {
+  color: rgb(16 185 129) !important; /* emerald-500 */
+}
+
+.project-card:hover .text-blue-400 {
+  color: rgb(59 130 246) !important; /* blue-500 */
+}
+
+/* Make description text white on hover in light mode */
+.project-card:hover .text-gray-800 {
+  color: white !important;
+}
+
+/* Make details and features text white on hover in both modes */
+.project-card:hover .project-details .text-gray-300,
+.project-card:hover .project-details .text-gray-800 {
+  color: white !important;
+}
+
+/* Make project titles white on hover */
+.project-card:hover .text-lg {
+  color: white !important;
+}
+
+/* Make shorter description text white on hover, but not the // parts or links */
+.project-card:hover .text-sm:not(.text-gray-400):not(.text-gray-600):not(.text-blue-400) {
+  color: white !important;
+}
