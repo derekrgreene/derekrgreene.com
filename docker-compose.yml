@@ -8,7 +8,11 @@ services:
     env_file:
       - .env
     restart: always
-    command: /bin/bash -c "python domains.py & python websocket.py & flask run --host=0.0.0.0 --port=8050"
+    environment:
+      - PHX_HOST=localhost
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
 
   db:
     image: mysql:latest
@@ -24,20 +28,6 @@ services:
       - db_data:/var/lib/mysql
     restart: always
 
-  db2:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DBPW}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DBUSER}
-      MYSQL_PASSWORD: ${DBPW} 
-    ports:
-      - "3307:3306" 
-    volumes:
-      - ./domain_data.sql:/docker-entrypoint-initdb.d/domain_data.sql
-      - db2_data:/var/lib/mysql
-    restart: always
-
   engdb:
     build:
       context: ./flask_proj
@@ -46,16 +36,6 @@ services:
     env_file:
       - .env
     restart: always
-
-  certstream:
-    image: 0rickyy0/certstream-server-go
-    container_name: certstream-server
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./config.yaml:/app/config.yaml
-    restart: always
     
 volumes:
   db_data:
-  db2_data:
