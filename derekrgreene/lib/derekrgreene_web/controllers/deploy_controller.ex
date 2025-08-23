@@ -1,5 +1,6 @@
 defmodule DerekrgreeneWeb.DeployController do
   use DerekrgreeneWeb, :controller
+  require Logger
 
   def webhook(conn, _params) do
     # Get the GitHub webhook payload
