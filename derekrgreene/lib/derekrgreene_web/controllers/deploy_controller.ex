@@ -106,6 +106,12 @@ defmodule DerekrgreeneWeb.DeployController do
             # Calculate expected signature
             expected_signature = "sha256=" <> (:crypto.mac(:hmac, :sha256, secret, body) |> Base.encode16(case: :lower))
             
+            # DEBUG: Log signature details
+            Logger.info("Received signature: #{signature}")
+            Logger.info("Expected signature: #{expected_signature}")
+            Logger.info("Body: #{body}")
+            Logger.info("Secret length: #{String.length(secret)}")
+            
             if Plug.Crypto.secure_compare(signature, expected_signature) do
               :ok
             else
