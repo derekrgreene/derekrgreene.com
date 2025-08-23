@@ -23,7 +23,7 @@ defmodule DerekrgreeneWeb.Router do
     plug :put_root_layout, html: {DerekrgreeneWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :basic_auth, username: @admin_username, password: @admin_password
+    plug :admin_auth
   end
 
   scope "/", DerekrgreeneWeb do
@@ -47,5 +47,13 @@ defmodule DerekrgreeneWeb.Router do
 
       live_dashboard "/dashboard", metrics: DerekrgreeneWeb.Telemetry
     end
+  end
+
+  # Admin authentication plug
+  defp admin_auth(conn, _opts) do
+    username = System.get_env("ADMIN_USERNAME") || "admin"
+    password = System.get_env("ADMIN_PASSWORD")
+    
+    Plug.BasicAuth.basic_auth(conn, username: username, password: password)
   end
 end
