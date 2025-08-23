@@ -2,37 +2,32 @@ defmodule DerekrgreeneWeb.DeployController do
   use DerekrgreeneWeb, :controller
   require Logger
 
-  plug :capture_raw_body
+
 
   def webhook(conn, params) do
-    # Reconstruct the JSON body from the parsed parameters
-    body = Jason.encode!(params)
-    
-    # Verify GitHub webhook signature
-    case verify_webhook_signature(conn, body) do
-      :ok ->
-        # Get the GitHub webhook payload
-        case get_req_header(conn, "x-github-event") do
-          ["push"] ->
-            handle_push_webhook(conn, body)
-          _ ->
-            conn
-              |> put_status(:bad_request)
-              |> json(%{error: "Invalid webhook event"})
-        end
-      :error ->
-        conn
-          |> put_status(:unauthorized)
-          |> json(%{error: "Invalid webhook signature"})
-    end
-  end
-
-  defp capture_raw_body(conn, _opts) do
     case read_body(conn) do
-      {:ok, body, conn} ->
-        assign(conn, :raw_body, body)
+      {:ok, raw_body, updated_conn} ->
+        # Verify GitHub webhook signature using the actual raw body
+        case verify_webhook_signature(updated_conn, raw_body) do
+          :ok ->
+            # Get the GitHub webhook payload
+            case get_req_header(updated_conn, "x-github-event") do
+              ["push"] ->
+                handle_push_webhook(updated_conn, raw_body)
+              _ ->
+                updated_conn
+                  |> put_status(:bad_request)
+                  |> json(%{error: "Invalid webhook event"})
+            end
+          :error ->
+            updated_conn
+              |> put_status(:unauthorized)
+              |> json(%{error: "Invalid webhook signature"})
+        end
       {:error, _} ->
-        assign(conn, :raw_body, "")
+        conn
+          |> put_status(:bad_request)
+          |> json(%{error: "Failed to read request body"})
     end
   end
 
