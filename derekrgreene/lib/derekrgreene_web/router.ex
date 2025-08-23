@@ -11,6 +11,10 @@ defmodule DerekrgreeneWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
+
   pipeline :admin do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -25,6 +29,13 @@ defmodule DerekrgreeneWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+  end
+
+  # Deployment webhook endpoint
+  scope "/deploy", DerekrgreeneWeb do
+    pipe_through :api
+    
+    post "/", DeployController, :webhook
   end
 
   # LiveDashboard
