@@ -8,7 +8,7 @@
 
 ## My Personal Website Built with Elixir & Phoenix
 
-This is my personal website built with [Elixir](https://elixir-lang.org/) and [Phoenix Framework](https://www.phoenixframework.org/). The site features modern web technologies including Phoenix LiveView, Tailwind CSS, and system monitoring with LiveDashboard.
+This is my personal website built with [Elixir](https://elixir-lang.org/) and [Phoenix](https://www.phoenixframework.org/). The site features modern web technologies including Phoenix LiveView, Tailwind CSS, and system monitoring with LiveDashboard.
 
 ## 🛠️ Tech Stack
 
