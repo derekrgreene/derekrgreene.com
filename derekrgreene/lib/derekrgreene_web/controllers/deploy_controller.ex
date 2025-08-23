@@ -4,7 +4,7 @@ defmodule DerekrgreeneWeb.DeployController do
 
 
 
-  def webhook(conn, params) do
+  def webhook(conn, _params) do
     case read_body(conn) do
       {:ok, raw_body, updated_conn} ->
         # Verify GitHub webhook signature using the actual raw body
