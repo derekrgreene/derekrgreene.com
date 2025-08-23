@@ -3,8 +3,28 @@ defmodule DerekrgreeneWeb.DeployController do
   require Logger
 
   def webhook(conn, _params) do
+    # Log environment and request details for debugging
+    Logger.info("Webhook called in environment: #{Mix.env()}")
+    Logger.info("Request method: #{conn.method}")
+    Logger.info("Request path: #{conn.request_path}")
+    Logger.info("Content-Type header: #{get_req_header(conn, "content-type")}")
+    Logger.info("Content-Length header: #{get_req_header(conn, "content-length")}")
+    Logger.info("All request headers: #{inspect(conn.req_headers)}")
+    
+    # Check if body is already consumed
+    Logger.info("conn.assigns keys: #{Map.keys(conn.assigns)}")
+    Logger.info("conn.body_params: #{inspect(conn.body_params)}")
+    Logger.info("conn.params: #{inspect(conn.params)}")
+    
+    # Try to read body with detailed logging
+    Logger.info("About to call read_body...")
     case read_body(conn) do
       {:ok, body, updated_conn} ->
+        Logger.info("Successfully read body, length: #{String.length(body)}")
+        Logger.info("Body is binary: #{is_binary(body)}")
+        Logger.info("Body is empty: #{body == ""}")
+        Logger.info("Body first 50 chars: #{String.slice(body, 0, 50)}")
+        
         # Verify GitHub webhook signature using the raw body
         case verify_webhook_signature(updated_conn, body) do
           :ok ->
@@ -22,7 +42,8 @@ defmodule DerekrgreeneWeb.DeployController do
               |> put_status(:unauthorized)
               |> json(%{error: "Invalid webhook signature"})
         end
-      {:error, _} ->
+      {:error, reason} ->
+        Logger.error("Failed to read body: #{inspect(reason)}")
         conn
           |> put_status(:bad_request)
           |> json(%{error: "Failed to read request body"})
