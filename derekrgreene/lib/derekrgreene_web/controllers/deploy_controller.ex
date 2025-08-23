@@ -3,46 +3,49 @@ defmodule DerekrgreeneWeb.DeployController do
   require Logger
 
   def webhook(conn, _params) do
-    # Get the GitHub webhook payload
-    case get_req_header(conn, "x-github-event") do
-      ["push"] ->
-        handle_push_webhook(conn)
-      _ ->
+    # Verify GitHub webhook signature
+    case verify_webhook_signature(conn) do
+      :ok ->
+        # Get the GitHub webhook payload
+        case get_req_header(conn, "x-github-event") do
+          ["push"] ->
+            handle_push_webhook(conn)
+          _ ->
+            conn
+            |> put_status(:bad_request)
+            |> json(%{error: "Invalid webhook event"})
+        end
+      :error ->
         conn
-        |> put_status(:bad_request)
-        |> json(%{error: "Invalid webhook event"})
+        |> put_status(:unauthorized)
+        |> json(%{error: "Invalid webhook signature"})
     end
   end
 
   defp handle_push_webhook(conn) do
-    case read_body(conn) do
-      {:ok, body, conn} ->
-        case Jason.decode(body) do
-          {:ok, payload} ->
-            # Check if any commit message contains "PROD"
-            if should_deploy?(payload) do
-              # Trigger deployment
-              spawn(fn -> trigger_deployment() end)
-              
-              conn
-              |> put_status(:ok)
-              |> json(%{message: "Deployment triggered", commits: get_commit_messages(payload)})
-            else
-              conn
-              |> put_status(:ok)
-              |> json(%{message: "No deployment needed", commits: get_commit_messages(payload)})
-            end
+    # Use the body that was already read during signature verification
+    body = conn.assigns.raw_body
+    
+    case Jason.decode(body) do
+      {:ok, payload} ->
+        # Check if any commit message contains "PROD"
+        if should_deploy?(payload) do
+          # Trigger deployment
+          spawn(fn -> trigger_deployment() end)
           
-          {:error, _} ->
-            conn
-            |> put_status(:bad_request)
-            |> json(%{error: "Invalid JSON payload"})
+          conn
+          |> put_status(:ok)
+          |> json(%{message: "Deployment triggered", commits: get_commit_messages(payload)})
+        else
+          conn
+          |> put_status(:ok)
+          |> json(%{message: "No deployment needed", commits: get_commit_messages(payload)})
         end
       
       {:error, _} ->
         conn
         |> put_status(:bad_request)
-        |> json(%{error: "Failed to read request body"})
+        |> json(%{error: "Invalid JSON payload"})
     end
   end
 
@@ -77,6 +80,33 @@ defmodule DerekrgreeneWeb.DeployController do
         end)
       _ ->
         []
+    end
+  end
+
+  defp verify_webhook_signature(conn) do
+    case get_req_header(conn, "x-hub-signature-256") do
+      [signature] ->
+        # Get the raw body for signature verification
+        case read_body(conn) do
+          {:ok, body, conn} ->
+            # Store body in assigns for later use
+            conn = assign(conn, :raw_body, body)
+            
+            # Calculate expected signature
+            secret = System.get_env("GITHUB_SECRET") || "f8krmY7TJsrpOs8zLsSMfNFW6No2W_unWqW5C-FgChc="
+            expected_signature = "sha256=" <> :crypto.mac(:hmac, :sha256, secret, body) |> Base.encode16(case: :lower)
+            
+            if Plug.Crypto.secure_compare(signature, expected_signature) do
+              :ok
+            else
+              :error
+            end
+          
+          {:error, _} ->
+            :error
+        end
+      _ ->
+        :error
     end
   end
 
