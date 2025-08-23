@@ -3,13 +3,11 @@ defmodule DerekrgreeneWeb.DeployController do
   require Logger
 
   def webhook(conn, _params) do
-    # Log environment and request details for debugging
-    Logger.info("Webhook called in environment: #{Mix.env()}")
+    # Log request details for debugging
     Logger.info("Request method: #{conn.method}")
     Logger.info("Request path: #{conn.request_path}")
     Logger.info("Content-Type header: #{get_req_header(conn, "content-type")}")
     Logger.info("Content-Length header: #{get_req_header(conn, "content-length")}")
-    Logger.info("All request headers: #{inspect(conn.req_headers)}")
     
     # Check if body is already consumed
     Logger.info("conn.assigns keys: #{Map.keys(conn.assigns)}")
