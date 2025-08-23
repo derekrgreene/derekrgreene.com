@@ -29,19 +29,22 @@ defmodule DerekrgreeneWeb.Router do
     get "/", PageController, :home
   end
 
-  # LiveDashboard in development (no auth needed)
-  if Application.compile_env(:derekrgreene, :dev_routes) do
-    scope "/dev" do
-      pipe_through :browser
+  # LiveDashboard
+  live_session :live_dashboard, on_mount: {DerekrgreeneWeb.InitAssigns, :default} do
+    if Application.compile_env(:derekrgreene, :dev_routes) do
+      # Development: no auth needed
+      scope "/dev" do
+        pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: DerekrgreeneWeb.Telemetry
+        live_dashboard "/dashboard", metrics: DerekrgreeneWeb.Telemetry
+      end
+    else
+      # Production: admin auth required
+      scope "/admin" do
+        pipe_through :admin
+
+        live_dashboard "/dashboard", metrics: DerekrgreeneWeb.Telemetry
+      end
     end
-  end
-
-  # LiveDashboard in production (admin auth required)
-  scope "/admin" do
-    pipe_through :admin
-
-    live_dashboard "/dashboard", metrics: DerekrgreeneWeb.Telemetry
   end
 end
