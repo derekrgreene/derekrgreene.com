@@ -104,7 +104,7 @@ defmodule DerekrgreeneWeb.DeployController do
         case get_req_header(conn, "x-hub-signature-256") do
           [signature] ->
             # Calculate expected signature
-            expected_signature = "sha256=" <> :crypto.mac(:hmac, :sha256, secret, body) |> Base.encode16(case: :lower)
+            expected_signature = "sha256=" <> (:crypto.mac(:hmac, :sha256, secret, body) |> Base.encode16(case: :lower))
             
             if Plug.Crypto.secure_compare(signature, expected_signature) do
               :ok
