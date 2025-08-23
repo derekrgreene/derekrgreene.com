@@ -39,7 +39,6 @@ defmodule DerekrgreeneWeb.DeployController do
         conn
           |> put_status(:bad_request)
           |> json(%{error: "Empty or invalid request body"})
->>>>>>> dfa553aed9e3346f63ee7aaafe1945e3f47c834a
     end
   end
 
