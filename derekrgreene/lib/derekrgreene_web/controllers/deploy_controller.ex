@@ -23,6 +23,27 @@ defmodule DerekrgreeneWeb.DeployController do
         Logger.info("Body is empty: #{body == ""}")
         Logger.info("Body first 50 chars: #{String.slice(body, 0, 50)}")
         
+        # Manual HMAC test with hardcoded secret
+        test_secret = "7c60472a-caa0-48d1-a912-32d0c556ea35"
+        
+        # Test with known values to verify HMAC calculation
+        known_secret = "test_secret"
+        known_body = "test_body"
+        
+        # Calculate the expected signature manually to verify our test
+        known_hmac = :crypto.mac(:hmac, :sha256, known_secret, known_body)
+        known_expected = "sha256=" <> Base.encode16(known_hmac, case: :lower)
+        Logger.info("Manual calculation of expected: #{known_expected}")
+        
+        known_calculated = "sha256=" <> Base.encode16(:crypto.mac(:hmac, :sha256, known_secret, known_body), case: :lower)
+        Logger.info("Known HMAC test: #{known_calculated} (expected: #{known_expected})")
+        Logger.info("Known HMAC test passed: #{known_calculated == known_expected}")
+        
+        manual_signature = "sha256=" <> Base.encode16(:crypto.mac(:hmac, :sha256, test_secret, body), case: :lower)
+        Logger.info("Manual HMAC test - Secret: #{test_secret}")
+        Logger.info("Manual HMAC test - Body length: #{String.length(body)}")
+        Logger.info("Manual HMAC test - Calculated signature: #{manual_signature}")
+        
         # Verify GitHub webhook signature using the raw body
         case verify_webhook_signature(updated_conn, body) do
           :ok ->
@@ -115,6 +136,17 @@ defmodule DerekrgreeneWeb.DeployController do
       secret ->
         case get_req_header(conn, "x-hub-signature-256") do
           [signature] ->
+            # Test signature calculation with known values
+            test_secret = "test_secret"
+            test_body = "test_body"
+            test_signature = "sha256=" <> Base.encode16(:crypto.mac(:hmac, :sha256, test_secret, test_body), case: :lower)
+            Logger.info("Test signature calculation: secret='#{test_secret}', body='#{test_body}' -> #{test_signature}")
+            
+            # Log the actual secret and body being used
+            Logger.info("Actual secret: '#{secret}'")
+            Logger.info("Actual body (first 200 chars): '#{String.slice(body, 0, 200)}'")
+            Logger.info("Actual body (last 200 chars): '#{String.slice(body, -200..-1)}'")
+            
             # Calculate expected signature
             expected_signature = "sha256=" <> Base.encode16(:crypto.mac(:hmac, :sha256, secret, body), case: :lower)
             
@@ -125,6 +157,9 @@ defmodule DerekrgreeneWeb.DeployController do
             Logger.info("Secret length: #{String.length(secret)}")
             Logger.info("Body first 100 chars: #{String.slice(body, 0, 100)}")
             Logger.info("Body last 100 chars: #{String.slice(body, -100..-1)}")
+            Logger.info("Body bytes: #{inspect(body, limit: 200)}")
+            Logger.info("Body contains newlines: #{String.contains?(body, "\n")}")
+            Logger.info("Body contains carriage returns: #{String.contains?(body, "\r")}")
             
             if Plug.Crypto.secure_compare(signature, expected_signature) do
               Logger.info("Signature verification successful")
