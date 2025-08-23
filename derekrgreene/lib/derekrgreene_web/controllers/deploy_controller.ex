@@ -7,40 +7,44 @@ defmodule DerekrgreeneWeb.DeployController do
 
 
   def webhook(conn, _params) do
-    # Try to get the raw body from the connection
-    raw_body = conn.assigns[:raw_body] || ""
-    
-    # If no raw body, try to read it directly
-    {body, conn_to_use} = if raw_body == "" do
-      case read_body(conn) do
-        {:ok, body, updated_conn} -> {body, updated_conn}
-        {:error, _} -> {"", conn}
-      end
-    else
-      {raw_body, conn}
-    end
-    
-    # Verify GitHub webhook signature using the actual raw body
-    case verify_webhook_signature(conn_to_use, body) do
-      :ok ->
-        # Get the GitHub webhook payload
-        case get_req_header(conn_to_use, "x-github-event") do
-          ["push"] ->
-            handle_push_webhook(conn_to_use, body)
-          _ ->
-            conn_to_use
+    # Get the parsed body from conn.body_params (already processed by Plug.Parsers)
+    case conn.body_params do
+      %{} = parsed_body when map_size(parsed_body) > 0 ->
+        # Convert the parsed body back to JSON string for signature verification
+        case Jason.encode(parsed_body) do
+          {:ok, json_body} ->
+            # Verify GitHub webhook signature using the JSON body
+            case verify_webhook_signature(conn, json_body) do
+              :ok ->
+                # Get the GitHub webhook payload
+                case get_req_header(conn, "x-github-event") do
+                  ["push"] ->
+                    handle_push_webhook(conn, json_body)
+                  _ ->
+                    conn
+                      |> put_status(:bad_request)
+                      |> json(%{error: "Invalid webhook event"})
+                end
+              :error ->
+                conn
+                  |> put_status(:unauthorized)
+                  |> json(%{error: "Invalid webhook signature"})
+            end
+          {:error, _} ->
+            conn
               |> put_status(:bad_request)
-              |> json(%{error: "Invalid webhook event"})
+              |> json(%{error: "Failed to encode request body"})
         end
-      :error ->
-        conn_to_use
-          |> put_status(:unauthorized)
-          |> json(%{error: "Invalid webhook signature"})
+      _ ->
+        conn
+          |> put_status(:bad_request)
+          |> json(%{error: "Empty or invalid request body"})
+>>>>>>> dfa553aed9e3346f63ee7aaafe1945e3f47c834a
     end
   end
 
-  defp handle_push_webhook(conn, body) do
-    case Jason.decode(body) do
+  defp handle_push_webhook(conn, json_body) do
+    case Jason.decode(json_body) do
       {:ok, payload} ->
         # Check if any commit message contains "PROD"
         if should_deploy?(payload) do
@@ -112,14 +116,16 @@ defmodule DerekrgreeneWeb.DeployController do
             # DEBUG: Log signature details
             Logger.info("Received signature: #{signature}")
             Logger.info("Expected signature: #{expected_signature}")
-            Logger.info("Body: #{body}")
+            Logger.info("Body length: #{String.length(body)}")
             Logger.info("Secret length: #{String.length(secret)}")
-            Logger.info("Raw body length: #{String.length(body)}")
             Logger.info("Body first 100 chars: #{String.slice(body, 0, 100)}")
+            Logger.info("Body last 100 chars: #{String.slice(body, -100..-1)}")
             
             if Plug.Crypto.secure_compare(signature, expected_signature) do
+              Logger.info("Signature verification successful")
               :ok
             else
+              Logger.error("Signature verification failed")
               :error
             end
           [] ->
