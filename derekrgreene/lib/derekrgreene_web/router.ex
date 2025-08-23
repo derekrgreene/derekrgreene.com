@@ -1,5 +1,6 @@
 defmodule DerekrgreeneWeb.Router do
   use DerekrgreeneWeb, :router
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -18,8 +19,8 @@ defmodule DerekrgreeneWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug Plug.BasicAuth,
-      username: Application.get_env(:derekrgreene, :admin_username),
-      password: Application.get_env(:derekrgreene, :admin_password)
+      username: Application.compile_env(:derekrgreene, :admin_username),
+      password: Application.compile_env(:derekrgreene, :admin_password)
   end
 
   scope "/", DerekrgreeneWeb do
@@ -30,8 +31,6 @@ defmodule DerekrgreeneWeb.Router do
 
   # LiveDashboard in development (no auth needed)
   if Application.compile_env(:derekrgreene, :dev_routes) do
-    import Phoenix.LiveDashboard.Router
-
     scope "/dev" do
       pipe_through :browser
 
@@ -42,7 +41,6 @@ defmodule DerekrgreeneWeb.Router do
   # LiveDashboard in production (admin auth required)
   scope "/admin" do
     pipe_through :admin
-    import Phoenix.LiveDashboard.Router
 
     live_dashboard "/dashboard", metrics: DerekrgreeneWeb.Telemetry
   end
