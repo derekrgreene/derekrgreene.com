@@ -7,38 +7,29 @@ defmodule DerekrgreeneWeb.DeployController do
 
 
   def webhook(conn, _params) do
-    # Get the parsed body from conn.body_params (already processed by Plug.Parsers)
-    case conn.body_params do
-      %{} = parsed_body when map_size(parsed_body) > 0 ->
-        # Convert the parsed body back to JSON string for signature verification
-        case Jason.encode(parsed_body) do
-          {:ok, json_body} ->
-            # Verify GitHub webhook signature using the JSON body
-            case verify_webhook_signature(conn, json_body) do
-              :ok ->
-                # Get the GitHub webhook payload
-                case get_req_header(conn, "x-github-event") do
-                  ["push"] ->
-                    handle_push_webhook(conn, json_body)
-                  _ ->
-                    conn
-                      |> put_status(:bad_request)
-                      |> json(%{error: "Invalid webhook event"})
-                end
-              :error ->
-                conn
-                  |> put_status(:unauthorized)
-                  |> json(%{error: "Invalid webhook signature"})
+    case read_body(conn) do
+      {:ok, body, updated_conn} ->
+        # Verify GitHub webhook signature using the raw body
+        case verify_webhook_signature(updated_conn, body) do
+          :ok ->
+            # Get the GitHub webhook payload
+            case get_req_header(updated_conn, "x-github-event") do
+              ["push"] ->
+                handle_push_webhook(updated_conn, body)
+              _ ->
+                updated_conn
+                  |> put_status(:bad_request)
+                  |> json(%{error: "Invalid webhook event"})
             end
-          {:error, _} ->
-            conn
-              |> put_status(:bad_request)
-              |> json(%{error: "Failed to encode request body"})
+          :error ->
+            updated_conn
+              |> put_status(:unauthorized)
+              |> json(%{error: "Invalid webhook signature"})
         end
-      _ ->
+      {:error, _} ->
         conn
           |> put_status(:bad_request)
-          |> json(%{error: "Empty or invalid request body"})
+          |> json(%{error: "Failed to read request body"})
     end
   end
 
