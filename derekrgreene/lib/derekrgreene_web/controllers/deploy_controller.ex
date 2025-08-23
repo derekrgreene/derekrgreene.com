@@ -2,23 +2,23 @@ defmodule DerekrgreeneWeb.DeployController do
   use DerekrgreeneWeb, :controller
   require Logger
 
-  def webhook(conn, _params) do
+    def webhook(conn, _params) do
     # Verify GitHub webhook signature
     case verify_webhook_signature(conn) do
-      :ok ->
+      {:ok, verified_conn} ->
         # Get the GitHub webhook payload
-        case get_req_header(conn, "x-github-event") do
+        case get_req_header(verified_conn, "x-github-event") do
           ["push"] ->
-            handle_push_webhook(conn)
+            handle_push_webhook(verified_conn)
           _ ->
-            conn
-            |> put_status(:bad_request)
-            |> json(%{error: "Invalid webhook event"})
+            verified_conn
+              |> put_status(:bad_request)
+              |> json(%{error: "Invalid webhook event"})
         end
       :error ->
         conn
-        |> put_status(:unauthorized)
-        |> json(%{error: "Invalid webhook signature"})
+          |> put_status(:unauthorized)
+          |> json(%{error: "Invalid webhook signature"})
     end
   end
 
@@ -88,16 +88,17 @@ defmodule DerekrgreeneWeb.DeployController do
       [signature] ->
         # Get the raw body for signature verification
         case read_body(conn) do
-          {:ok, body, conn} ->
+          {:ok, body, updated_conn} ->
             # Store body in assigns for later use
-            conn = assign(conn, :raw_body, body)
+            updated_conn = assign(updated_conn, :raw_body, body)
             
             # Calculate expected signature
             secret = System.get_env("GITHUB_SECRET") || "f8krmY7TJsrpOs8zLsSMfNFW6No2W_unWqW5C-FgChc="
             expected_signature = "sha256=" <> :crypto.mac(:hmac, :sha256, secret, body) |> Base.encode16(case: :lower)
             
             if Plug.Crypto.secure_compare(signature, expected_signature) do
-              :ok
+              # Return the updated connection with the body stored in assigns
+              {:ok, updated_conn}
             else
               :error
             end
