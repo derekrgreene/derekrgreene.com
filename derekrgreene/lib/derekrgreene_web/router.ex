@@ -1,11 +1,6 @@
 defmodule DerekrgreeneWeb.Router do
   use DerekrgreeneWeb, :router
   import Phoenix.LiveDashboard.Router
-  import Plug.BasicAuth
-
-  # Admin credentials - read at compile time
-  @admin_username Application.compile_env(:derekrgreene, :admin_username)
-  @admin_password Application.compile_env(:derekrgreene, :admin_password)
 
   pipeline :browser do
     plug :accepts, ["html"]
