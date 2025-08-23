@@ -104,6 +104,8 @@ defmodule DerekrgreeneWeb.DeployController do
             Logger.info("Expected signature: #{expected_signature}")
             Logger.info("Body: #{body}")
             Logger.info("Secret length: #{String.length(secret)}")
+            Logger.info("Raw body length: #{String.length(body)}")
+            Logger.info("Body first 100 chars: #{String.slice(body, 0, 100)}")
             
             if Plug.Crypto.secure_compare(signature, expected_signature) do
               :ok
@@ -140,8 +142,10 @@ defmodule DerekrgreeneWeb.DeployController do
   defp capture_raw_body(conn, _opts) do
     case read_body(conn) do
       {:ok, body, conn} ->
+        Logger.info("Raw body captured, length: #{String.length(body)}")
         assign(conn, :raw_body, body)
       {:error, _} ->
+        Logger.error("Failed to read body")
         assign(conn, :raw_body, "")
     end
   end
