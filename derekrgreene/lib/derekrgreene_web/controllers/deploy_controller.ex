@@ -1,10 +1,6 @@
 defmodule DerekrgreeneWeb.DeployController do
   use DerekrgreeneWeb, :controller
   require Logger
-  
-  plug :capture_raw_body
-
-
 
   def webhook(conn, _params) do
     case read_body(conn) do
@@ -141,18 +137,6 @@ defmodule DerekrgreeneWeb.DeployController do
       end
     else
       Logger.error("Deployment script not found at: #{script_path}")
-    end
-  end
-
-  # Plug function to capture raw body before Phoenix processes it
-  defp capture_raw_body(conn, _opts) do
-    case read_body(conn) do
-      {:ok, body, conn} ->
-        Logger.info("Raw body captured, length: #{String.length(body)}")
-        assign(conn, :raw_body, body)
-      {:error, _} ->
-        Logger.error("Failed to read body")
-        assign(conn, :raw_body, "")
     end
   end
 end
