@@ -15,6 +15,10 @@ defmodule DerekrgreeneWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :webhook do
+    # No body processing - we'll handle it manually in the controller
+  end
+
   pipeline :admin do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -33,7 +37,7 @@ defmodule DerekrgreeneWeb.Router do
 
   # Deployment webhook endpoint
   scope "/deploy", DerekrgreeneWeb do
-    pipe_through :api
+    pipe_through :webhook
     
     post "/", DeployController, :webhook
   end
