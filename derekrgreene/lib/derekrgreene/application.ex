@@ -11,16 +11,9 @@ defmodule Derekrgreene.Application do
       DerekrgreeneWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:derekrgreene, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Derekrgreene.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: Derekrgreene.Finch},
-      # Start a worker by calling: Derekrgreene.Worker.start_link(arg)
-      # {Derekrgreene.Worker, arg},
-      # Start to serve requests, typically the last entry
       DerekrgreeneWeb.Endpoint
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Derekrgreene.Supervisor]
     Supervisor.start_link(children, opts)
   end

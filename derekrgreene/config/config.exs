@@ -10,6 +10,11 @@ import Config
 config :derekrgreene,
   generators: [timestamp_type: :utc_datetime]
 
+# Admin configuration
+config :derekrgreene,
+  admin_username: "admin",
+  admin_password: System.get_env("ADMIN_PASSWORD")
+
 # Configures the endpoint
 config :derekrgreene, DerekrgreeneWeb.Endpoint,
   url: [host: "localhost"],
@@ -20,15 +25,6 @@ config :derekrgreene, DerekrgreeneWeb.Endpoint,
   ],
   pubsub_server: Derekrgreene.PubSub,
   live_view: [signing_salt: "X831eKu1"]
-
-# Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :derekrgreene, Derekrgreene.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
