@@ -1,34 +1,41 @@
 defmodule DerekrgreeneWeb.DeployController do
   use DerekrgreeneWeb, :controller
   require Logger
+  
+  plug :capture_raw_body
 
 
 
   def webhook(conn, _params) do
-    # Read the raw body immediately before any processing
-    case read_body(conn) do
-      {:ok, raw_body, updated_conn} ->
-        # Verify GitHub webhook signature using the actual raw body
-        case verify_webhook_signature(updated_conn, raw_body) do
-          :ok ->
-            # Get the GitHub webhook payload
-            case get_req_header(updated_conn, "x-github-event") do
-              ["push"] ->
-                handle_push_webhook(updated_conn, raw_body)
-              _ ->
-                updated_conn
-                  |> put_status(:bad_request)
-                  |> json(%{error: "Invalid webhook event"})
-            end
-          :error ->
-            updated_conn
-              |> put_status(:unauthorized)
-              |> json(%{error: "Invalid webhook signature"})
+    # Try to get the raw body from the connection
+    raw_body = conn.assigns[:raw_body] || ""
+    
+    # If no raw body, try to read it directly
+    {body, conn_to_use} = if raw_body == "" do
+      case read_body(conn) do
+        {:ok, body, updated_conn} -> {body, updated_conn}
+        {:error, _} -> {"", conn}
+      end
+    else
+      {raw_body, conn}
+    end
+    
+    # Verify GitHub webhook signature using the actual raw body
+    case verify_webhook_signature(conn_to_use, body) do
+      :ok ->
+        # Get the GitHub webhook payload
+        case get_req_header(conn_to_use, "x-github-event") do
+          ["push"] ->
+            handle_push_webhook(conn_to_use, body)
+          _ ->
+            conn_to_use
+              |> put_status(:bad_request)
+              |> json(%{error: "Invalid webhook event"})
         end
-      {:error, _} ->
-        conn
-          |> put_status(:bad_request)
-          |> json(%{error: "Failed to read request body"})
+      :error ->
+        conn_to_use
+          |> put_status(:unauthorized)
+          |> json(%{error: "Invalid webhook signature"})
     end
   end
 
@@ -141,4 +148,15 @@ defmodule DerekrgreeneWeb.DeployController do
     end
   end
 
+  # Plug function to capture raw body before Phoenix processes it
+  defp capture_raw_body(conn, _opts) do
+    case read_body(conn) do
+      {:ok, body, conn} ->
+        Logger.info("Raw body captured, length: #{String.length(body)}")
+        assign(conn, :raw_body, body)
+      {:error, _} ->
+        Logger.error("Failed to read body")
+        assign(conn, :raw_body, "")
+    end
+  end
 end
