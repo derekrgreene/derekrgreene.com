@@ -12,7 +12,8 @@ config :derekrgreene, DerekrgreeneWeb.Endpoint,
   http: [port: {:system, "PORT"}],
   url: [host: "derekrgreene.com", port: 8050],
   cache_static_manifest: "priv/static/cache_manifest.json",
-  server: true
+  server: true,
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Do not print debug messages in production
 config :logger, level: :info

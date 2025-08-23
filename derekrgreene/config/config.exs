@@ -12,7 +12,7 @@ config :derekrgreene,
 
 # Admin configuration
 config :derekrgreene,
-  admin_username: "admin",
+  admin_username: System.get_env("ADMIN_USERNAME") || "admin",
   admin_password: System.get_env("ADMIN_PASSWORD")
 
 # Configures the endpoint
