@@ -1,33 +1,31 @@
 defmodule DerekrgreeneWeb.DeployController do
   use DerekrgreeneWeb, :controller
   require Logger
+  
+  plug :capture_raw_body
 
 
 
   def webhook(conn, _params) do
-    case read_body(conn) do
-      {:ok, raw_body, updated_conn} ->
-        # Verify GitHub webhook signature using the actual raw body
-        case verify_webhook_signature(updated_conn, raw_body) do
-          :ok ->
-            # Get the GitHub webhook payload
-            case get_req_header(updated_conn, "x-github-event") do
-              ["push"] ->
-                handle_push_webhook(updated_conn, raw_body)
-              _ ->
-                updated_conn
-                  |> put_status(:bad_request)
-                  |> json(%{error: "Invalid webhook event"})
-            end
-          :error ->
-            updated_conn
-              |> put_status(:unauthorized)
-              |> json(%{error: "Invalid webhook signature"})
+    # Use the raw body captured by the plug
+    raw_body = conn.assigns[:raw_body] || ""
+    
+    # Verify GitHub webhook signature using the actual raw body
+    case verify_webhook_signature(conn, raw_body) do
+      :ok ->
+        # Get the GitHub webhook payload
+        case get_req_header(conn, "x-github-event") do
+          ["push"] ->
+            handle_push_webhook(conn, raw_body)
+          _ ->
+            conn
+              |> put_status(:bad_request)
+              |> json(%{error: "Invalid webhook event"})
         end
-      {:error, _} ->
+      :error ->
         conn
-          |> put_status(:bad_request)
-          |> json(%{error: "Failed to read request body"})
+          |> put_status(:unauthorized)
+          |> json(%{error: "Invalid webhook signature"})
     end
   end
 
@@ -99,7 +97,7 @@ defmodule DerekrgreeneWeb.DeployController do
         case get_req_header(conn, "x-hub-signature-256") do
           [signature] ->
             # Calculate expected signature
-            expected_signature = "sha256=" <> (:crypto.mac(:hmac, :sha256, secret, body) |> Base.encode16(case: :lower))
+            expected_signature = "sha256=" <> Base.encode16(:crypto.mac(:hmac, :sha256, secret, body), case: :lower)
             
             # DEBUG: Log signature details
             Logger.info("Received signature: #{signature}")
@@ -135,6 +133,16 @@ defmodule DerekrgreeneWeb.DeployController do
       end
     else
       Logger.error("Deployment script not found at: #{script_path}")
+    end
+  end
+
+  # Plug function to capture raw body before Phoenix processes it
+  defp capture_raw_body(conn, _opts) do
+    case read_body(conn) do
+      {:ok, body, conn} ->
+        assign(conn, :raw_body, body)
+      {:error, _} ->
+        assign(conn, :raw_body, "")
     end
   end
 end
