@@ -1,31 +1,34 @@
 defmodule DerekrgreeneWeb.DeployController do
   use DerekrgreeneWeb, :controller
   require Logger
-  
-  plug :capture_raw_body
 
 
 
   def webhook(conn, _params) do
-    # Use the raw body captured by the plug
-    raw_body = conn.assigns[:raw_body] || ""
-    
-    # Verify GitHub webhook signature using the actual raw body
-    case verify_webhook_signature(conn, raw_body) do
-      :ok ->
-        # Get the GitHub webhook payload
-        case get_req_header(conn, "x-github-event") do
-          ["push"] ->
-            handle_push_webhook(conn, raw_body)
-          _ ->
-            conn
-              |> put_status(:bad_request)
-              |> json(%{error: "Invalid webhook event"})
+    # Read the raw body immediately before any processing
+    case read_body(conn) do
+      {:ok, raw_body, updated_conn} ->
+        # Verify GitHub webhook signature using the actual raw body
+        case verify_webhook_signature(updated_conn, raw_body) do
+          :ok ->
+            # Get the GitHub webhook payload
+            case get_req_header(updated_conn, "x-github-event") do
+              ["push"] ->
+                handle_push_webhook(updated_conn, raw_body)
+              _ ->
+                updated_conn
+                  |> put_status(:bad_request)
+                  |> json(%{error: "Invalid webhook event"})
+            end
+          :error ->
+            updated_conn
+              |> put_status(:unauthorized)
+              |> json(%{error: "Invalid webhook signature"})
         end
-      :error ->
+      {:error, _} ->
         conn
-          |> put_status(:unauthorized)
-          |> json(%{error: "Invalid webhook signature"})
+          |> put_status(:bad_request)
+          |> json(%{error: "Failed to read request body"})
     end
   end
 
@@ -138,15 +141,4 @@ defmodule DerekrgreeneWeb.DeployController do
     end
   end
 
-  # Plug function to capture raw body before Phoenix processes it
-  defp capture_raw_body(conn, _opts) do
-    case read_body(conn) do
-      {:ok, body, conn} ->
-        Logger.info("Raw body captured, length: #{String.length(body)}")
-        assign(conn, :raw_body, body)
-      {:error, _} ->
-        Logger.error("Failed to read body")
-        assign(conn, :raw_body, "")
-    end
-  end
 end
