@@ -1,6 +1,7 @@
 defmodule DerekrgreeneWeb.Router do
   use DerekrgreeneWeb, :router
   import Phoenix.LiveDashboard.Router
+  import Plug.BasicAuth
 
   # Admin credentials - read at compile time
   @admin_username Application.compile_env(:derekrgreene, :admin_username)
@@ -22,7 +23,7 @@ defmodule DerekrgreeneWeb.Router do
     plug :put_root_layout, html: {DerekrgreeneWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :admin_auth
+    plug :basic_auth, username: @admin_username, password: @admin_password
   end
 
   scope "/", DerekrgreeneWeb do
@@ -45,26 +46,6 @@ defmodule DerekrgreeneWeb.Router do
       pipe_through :admin
 
       live_dashboard "/dashboard", metrics: DerekrgreeneWeb.Telemetry
-    end
-  end
-
-  # Admin authentication plug
-  defp admin_auth(conn, _opts) do
-    case get_req_header(conn, "authorization") do
-      ["Basic " <> auth] ->
-        case Base.decode64(auth) do
-          {:ok, auth_string} ->
-            expected = "#{@admin_username}:#{@admin_password}"
-            if auth_string == expected do
-              conn
-            else
-              conn |> put_status(401) |> put_resp_header("www-authenticate", "Basic realm=\"Admin\"") |> halt()
-            end
-          _ ->
-            conn |> put_status(401) |> put_resp_header("www-authenticate", "Basic realm=\"Admin\"") |> halt()
-        end
-      _ ->
-        conn |> put_status(401) |> put_resp_header("www-authenticate", "Basic realm=\"Admin\"") |> halt()
     end
   end
 end
