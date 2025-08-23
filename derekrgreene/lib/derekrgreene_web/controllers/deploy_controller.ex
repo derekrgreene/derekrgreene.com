@@ -2,16 +2,21 @@ defmodule DerekrgreeneWeb.DeployController do
   use DerekrgreeneWeb, :controller
   require Logger
 
-    def webhook(conn, _params) do
+  plug :capture_raw_body
+
+  def webhook(conn, params) do
+    # Reconstruct the JSON body from the parsed parameters
+    body = Jason.encode!(params)
+    
     # Verify GitHub webhook signature
-    case verify_webhook_signature(conn) do
-      {:ok, verified_conn} ->
+    case verify_webhook_signature(conn, body) do
+      :ok ->
         # Get the GitHub webhook payload
-        case get_req_header(verified_conn, "x-github-event") do
+        case get_req_header(conn, "x-github-event") do
           ["push"] ->
-            handle_push_webhook(verified_conn)
+            handle_push_webhook(conn, body)
           _ ->
-            verified_conn
+            conn
               |> put_status(:bad_request)
               |> json(%{error: "Invalid webhook event"})
         end
@@ -22,10 +27,16 @@ defmodule DerekrgreeneWeb.DeployController do
     end
   end
 
-  defp handle_push_webhook(conn) do
-    # Use the body that was already read during signature verification
-    body = conn.assigns.raw_body
-    
+  defp capture_raw_body(conn, _opts) do
+    case read_body(conn) do
+      {:ok, body, conn} ->
+        assign(conn, :raw_body, body)
+      {:error, _} ->
+        assign(conn, :raw_body, "")
+    end
+  end
+
+  defp handle_push_webhook(conn, body) do
     case Jason.decode(body) do
       {:ok, payload} ->
         # Check if any commit message contains "PROD"
@@ -83,31 +94,30 @@ defmodule DerekrgreeneWeb.DeployController do
     end
   end
 
-  defp verify_webhook_signature(conn) do
-    case get_req_header(conn, "x-hub-signature-256") do
-      [signature] ->
-        # Get the raw body for signature verification
-        case read_body(conn) do
-          {:ok, body, updated_conn} ->
-            # Store body in assigns for later use
-            updated_conn = assign(updated_conn, :raw_body, body)
-            
+  defp verify_webhook_signature(conn, body) do
+    # Check if GitHub secret is configured
+    case System.get_env("GITHUB_SECRET") do
+      nil ->
+        Logger.error("GITHUB_SECRET environment variable not set")
+        :error
+      secret ->
+        case get_req_header(conn, "x-hub-signature-256") do
+          [signature] ->
             # Calculate expected signature
-            secret = System.get_env("GITHUB_SECRET") || "f8krmY7TJsrpOs8zLsSMfNFW6No2W_unWqW5C-FgChc="
             expected_signature = "sha256=" <> :crypto.mac(:hmac, :sha256, secret, body) |> Base.encode16(case: :lower)
             
             if Plug.Crypto.secure_compare(signature, expected_signature) do
-              # Return the updated connection with the body stored in assigns
-              {:ok, updated_conn}
+              :ok
             else
               :error
             end
-          
-          {:error, _} ->
+          [] ->
+            Logger.error("No x-hub-signature-256 header found")
+            :error
+          _ ->
+            Logger.error("Invalid x-hub-signature-256 header format")
             :error
         end
-      _ ->
-        :error
     end
   end
 
