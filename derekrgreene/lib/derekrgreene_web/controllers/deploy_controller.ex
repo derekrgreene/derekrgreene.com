@@ -125,7 +125,7 @@ defmodule DerekrgreeneWeb.DeployController do
                      stderr_to_stdout: true, 
                      env: env,
                      cd: "/home/derek") do
-        {output, 0} ->
+        {output, 143} ->
           Logger.info("Deployment script executed successfully: #{output}")
         {output, exit_code} ->
           Logger.error("Deployment script failed with exit code #{exit_code}: #{output}")
