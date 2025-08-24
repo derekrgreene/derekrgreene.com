@@ -47,7 +47,7 @@ docker-compose up --build
 
 ## 🚀 Development (Local)
 
-To run the application locally without Docker:
+To run the application locally:
 
 1. Install dependencies:
    ```bash
