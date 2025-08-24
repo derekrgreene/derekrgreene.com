@@ -38,9 +38,9 @@ DBUSER=<database_username>
 DB=<database_name>
 ```
 
-**Note**: The `SECRET_KEY_BASE` is required for Phoenix security. You can generate one using `mix phx.gen.secret` if you don't have one.
+**Note**: The `SECRET_KEY_BASE` is required for Phoenix security. You can generate one with `mix phx.gen.secret`.
 
-### ⚙️ Build and Initialize Docker Containers
+### ⚙️ Build and Initialize Docker Container
 ```bash
 docker-compose up --build
 ```
@@ -65,7 +65,7 @@ To run the application locally without Docker:
    mix phx.server
    ```
 
-4. Visit [`localhost:8050`](http://localhost:8050) in your browser
+4. Visit [`localhost:4000`](http://localhost:4000) in your browser
 
 ## 📊 Features
 
