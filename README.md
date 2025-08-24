@@ -65,7 +65,7 @@ To run the application locally without Docker:
    mix phx.server
    ```
 
-4. Visit [`localhost:4000`](http://localhost:4000) in your browser
+4. Visit [`localhost:4000`](http://localhost:4000)
 
 ## 📊 Features
 
