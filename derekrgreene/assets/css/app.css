@@ -38,3 +38,17 @@
 .project-card:hover .text-sm:not(.text-gray-400):not(.text-gray-600):not(.text-blue-400) {
   color: white !important;
 }
+
+/* Ensure hover effects take precedence over clicked state */
+.project-card:hover {
+  background-color: rgb(55 65 81) !important; /* bg-gray-700 */
+  border-color: rgb(107 114 128) !important; /* border-gray-500 */
+  transform: translateY(-0.25rem) !important; /* -translate-y-1 */
+}
+
+/* Remove ring effect on hover to prevent conflicts */
+.project-card:hover {
+  box-shadow: none !important;
+  --tw-ring-offset-shadow: none !important;
+  --tw-ring-shadow: none !important;
+}
