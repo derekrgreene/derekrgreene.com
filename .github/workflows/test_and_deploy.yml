@@ -28,6 +28,11 @@ jobs:
           mix local.rebar --force
           mix deps.get
 
+      - name: Compile application
+        working-directory: ./derekrgreene
+        run: |
+          mix compile
+
       - name: Run tests
         working-directory: ./derekrgreene
         run: |
