@@ -7,7 +7,6 @@ defmodule DerekrgreeneWeb.DeployController do
       {:ok, body, updated_conn} ->
         case verify_webhook_signature(updated_conn, body) do
           :ok ->
-            # Get the GitHub webhook payload
             case get_req_header(updated_conn, "x-github-event") do
               ["push"] ->
                 handle_push_webhook(updated_conn, body)
@@ -32,9 +31,7 @@ defmodule DerekrgreeneWeb.DeployController do
   defp handle_push_webhook(conn, json_body) do
     case Jason.decode(json_body) do
       {:ok, payload} ->
-        # Check if any commit message contains "PROD"
         if should_deploy?(payload) do
-          # Trigger deployment
           spawn(fn -> trigger_deployment() end)
           
           conn
@@ -88,7 +85,6 @@ defmodule DerekrgreeneWeb.DeployController do
   end
 
   defp verify_webhook_signature(conn, body) do
-    # Check if GitHub secret is configured
     case System.get_env("GITHUB_SECRET") do
       nil ->
         Logger.error("GITHUB_SECRET environment variable not set")
@@ -118,7 +114,6 @@ defmodule DerekrgreeneWeb.DeployController do
     script_path = Path.expand("~/scripts/phoenix_auto_deploy.sh")
     
     if File.exists?(script_path) do
-      # Execute the deployment script
       case System.cmd("bash", [script_path], stderr_to_stdout: true) do
         {output, 0} ->
           Logger.info("Deployment script executed successfully: #{output}")
