@@ -75,3 +75,4 @@ To run the application locally without Docker:
 - Docker containerization for easy deployment
 
 <h5 align="center">Developed with &#128154; by <a href="https://derekrgreene.com">Derek R. Greene</a></h5>
+
