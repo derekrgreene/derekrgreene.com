@@ -111,17 +111,26 @@ defmodule DerekrgreeneWeb.DeployController do
   end
 
   defp trigger_deployment() do
-    script_path = Path.expand("~/scripts/phoenix_auto_deploy.sh")
+  script_path = Path.expand("~/scripts/phoenix_auto_deploy.sh")
+  
+  if File.exists?(script_path) do
+    env = [
+      {"PATH", "/usr/local/bin:/usr/bin:/bin:/home/derek/.local/bin"},
+      {"HOME", "/home/derek"},
+      {"MIX_ENV", "prod"},
+      {"USER", "derek"}
+    ]
     
-    if File.exists?(script_path) do
-      case System.cmd("bash", [script_path], stderr_to_stdout: true) do
-        {output, 0} ->
-          Logger.info("Deployment script executed successfully: #{output}")
-        {output, exit_code} ->
-          Logger.error("Deployment script failed with exit code #{exit_code}: #{output}")
-      end
-    else
-      Logger.error("Deployment script not found at: #{script_path}")
+    case System.cmd("bash", [script_path], 
+                   stderr_to_stdout: true, 
+                   env: env,
+                   cd: "/home/derek") do
+      {output, 0} ->
+        Logger.info("Deployment script executed successfully: #{output}")
+      {output, exit_code} ->
+        Logger.error("Deployment script failed with exit code #{exit_code}: #{output}")
     end
+  else
+    Logger.error("Deployment script not found at: #{script_path}")
   end
 end
