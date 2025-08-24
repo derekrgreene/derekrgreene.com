@@ -69,7 +69,7 @@ To run the application locally without Docker:
 
 ## 📊 Features
 
-- Personal portfolio and information
+- Personal portfolio and research
 - LiveDashboard for system monitoring
 - Responsive design with Tailwind CSS
 - Docker containerization for easy deployment
