@@ -52,3 +52,44 @@
   --tw-ring-offset-shadow: none !important;
   --tw-ring-shadow: none !important;
 }
+
+/* Mobile responsive fixes */
+@media (max-width: 768px) {
+  /* Fix project card grid layout on mobile */
+  .grid.grid-cols-2 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Ensure project titles don't overflow */
+  .project-card .text-lg {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Fix top navigation spacing on mobile */
+  .grid.grid-cols-4 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  /* Add some spacing between top nav items */
+  .grid.grid-cols-4 > div {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Make project cards more mobile-friendly */
+  .project-card {
+    padding: 1rem;
+    min-height: auto;
+  }
+  
+  /* Ensure text doesn't overflow in project cards */
+  .project-card p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
