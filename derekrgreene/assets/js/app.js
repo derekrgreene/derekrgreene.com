@@ -363,6 +363,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let srcX = d.x1;
         let srcY = d.y1 + circleRadius;
 
+        if (d.y2 < d.y1) {
+          destY = d.y2 + arrowSpacing;
+          srcY = d.y1 - circleRadius;
+        }
+
         if (d.y1 == d.y2) {
             destY = d.y2;
             destX = d.x2 - Math.abs(d.x2 - d.x1)/(d.x2 - d.x1) * arrowSpacing;
@@ -484,11 +489,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // row labels
     const rowNames = {
-        1: "Subscriber Submits CSR",
-        2: "Domain Contact Information Query",
-        3: "DNS Records",
-        4: "Nonce Send",
-        5: "Nonce Receipt"
+        1: "1 - Certificate Request",
+        2: "",
+        3: "2 - Indirection",
+        4: "3 - Control Validation"
     };
 
     const rowLabels = svg.append("g")
