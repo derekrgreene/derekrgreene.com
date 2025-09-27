@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
         1: "1 - Certificate Request",
         2: "",
         3: "2 - Indirection",
-        4: "3 - Control Validation"
+        4: "3 - Validation"
     };
 
     const rowLabels = svg.append("g")
